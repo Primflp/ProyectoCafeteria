@@ -32,6 +32,10 @@ function Home() {
                 id="downArrow"
             />
             </div>
+            <div className='account-access-container'>
+                <Link to="/register" className='account-access__sign-in__text'>Registrar usuario</Link>
+                <Link to="/login" className='account-access__log-in__text'>Iniciar Sesion</Link>
+            </div>
         </div>
         {/* imagen */}
 
@@ -41,8 +45,6 @@ function Home() {
                 <p className='fuzzy-bubbles-bold products-link-menu__text'>Productos de calidad</p>
                 <p>Descubre la pureza y el aroma de los mejores granos de alta montaña, tostados artesanalmente para llevar una experiencia premium a tu taza.</p>
                 <Link to="/productos" className='products-link-menu__button'>Catálogo</Link>
-                
-                {/* <button to="/productos" className='products-link-menu__button'>Catálogo</button> */}
             </div>
             <div className='products-link-menu__img-container'>
                 <img src={homeProductImg} alt="" className='products-link-menu__img' />
