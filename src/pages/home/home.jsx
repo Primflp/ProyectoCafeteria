@@ -1,10 +1,13 @@
 import './home.css'
 
 import homeImg from '../../assets/img/cafe-inicio.png'
+import homeProductImg from '../../assets/img/img_inicio_productos.png'
 import downArrow from '../../assets/img/downArrowBeige.png'
 import img1 from '../../assets/img/granosIcon.png'
 import img2 from '../../assets/img/hojaIcon.png'
 import img3 from '../../assets/img/gotaIcon.png'
+
+import { Link } from 'react-router-dom';
 
 function Home() {
     return (
@@ -18,7 +21,7 @@ function Home() {
                 Granos de cafe
             </h2>
             <p className="menu-overlay__text--subtitle">
-                Grano entero, molido, en cápsulas, solube e instantáneo
+                Grano entero, molido, solube e instantáneo
             </p>
             </div>
             <div className="menu-overlay__down-arrow">
@@ -30,8 +33,23 @@ function Home() {
             />
             </div>
         </div>
-
         {/* imagen */}
+
+        {/* aviso productos */}
+        <div className='products-link-menu-container'>
+            <div className='products-link-menu__text-container'>
+                <p className='fuzzy-bubbles-bold products-link-menu__text'>Productos de calidad</p>
+                <p>Descubre la pureza y el aroma de los mejores granos de alta montaña, tostados artesanalmente para llevar una experiencia premium a tu taza.</p>
+                <Link to="/productos" className='products-link-menu__button'>Catálogo</Link>
+                
+                {/* <button to="/productos" className='products-link-menu__button'>Catálogo</button> */}
+            </div>
+            <div className='products-link-menu__img-container'>
+                <img src={homeProductImg} alt="" className='products-link-menu__img' />
+            </div>
+        </div>
+        {/* aviso productos */}
+
         <h2 className="feature-cards__title fuzzy-bubbles-bold">El mejor café</h2>
         <hr className="divide-line" />
         {/* feautre card */}
