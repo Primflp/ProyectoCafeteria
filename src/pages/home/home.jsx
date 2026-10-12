@@ -63,7 +63,7 @@ function Home() {
                 className="feature-card__icon feature-card__icon-left-size"
             />
             <p className="feature-card__text">
-                Nuestros cafés contienen exclusivamente granos 100% arábica, cultivados
+                Nuestros cafés contienen granos arábica en gran medida, cultivados
                 en fincas de alta montaña. Disfruta una taza premium con aroma intenso,
                 notas dulces y una acidez perfectamente balanceada en cada sorbo.
             </p>

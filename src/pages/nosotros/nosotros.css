@@ -1,0 +1,74 @@
+body.nosotros{
+    background-image: url(../../assets/img/FondoCafe.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+.background__img-container{
+    display: flex;
+
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.background__img{
+    width: 400px; 
+    height: 400px;
+}
+
+.background__logo-container{
+    display: flex;
+
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.background__logo{
+    width: 400px; 
+    height: 400px;
+}
+
+.info-card-container{
+    width: 100vh;
+    height: auto;
+    border-radius: 1%;
+
+    justify-self: center;
+    align-self: center;
+
+    margin-top: 2%;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 2%;
+
+    background-color: rgb(255, 255, 255);
+    border: 3px solid rgb(33, 37, 41);
+}
+
+.info-card__title-container{
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+
+    padding-top: 1%;
+    /* margin-bottom: 2%; */
+    
+    background-color: rgb(33, 37, 41);
+}
+
+.info-card__title{
+    text-align: center;
+    color: rgb(255, 255, 255);
+}
+
+.info-card__text{
+    text-align: justify;
+    font-size: 18px;
+    color: rgb(0, 0, 0);
+    margin: 2rem 5%;
+}

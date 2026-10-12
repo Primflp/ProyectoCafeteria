@@ -1,0 +1,110 @@
+.detalle-container{
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+
+    height: auto;
+
+    margin-top: 2rem;
+}
+
+.grid1-product-img-container{
+    text-align: center;
+    margin-left: 5vw;
+}
+
+    .grid1-product-img{
+        width: 30vw;
+        transform: scale(0.75);
+        transition: transform 0.3s ease;
+    }
+
+    .grid1-product-img:hover{
+        
+        transform: scale(1);
+    }
+
+.grid2-product-information{
+    padding: 2rem;
+    margin-right: 20rem;
+}
+
+.grid2-product-information__title{
+    font-size: 30px;
+    margin-bottom: 0;
+}
+
+.grid2-product-information__price{
+    font-size: 20px;
+}
+
+    .old-price{
+        text-decoration: line-through;
+        opacity: 0.75;
+    }
+
+    .descuento{
+        font-size: 12px;
+        
+        background-color: rgb(33, 37, 41);
+        color: white;
+
+        padding: 0.2rem 0.5rem;
+        
+        border-radius: 10px;
+    }
+
+.agregar-carrito-container{
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    margin-bottom: 3.5rem;
+}
+
+.manage-amount-border{
+    display: flex;
+    border: solid black 1px;
+    border-radius: 10px;
+}
+
+.agregar-carrito__cantidad{
+    width: 2vw;
+    height: 3rem;
+
+    text-align: center;
+
+    border: none;
+    outline: none;
+}
+
+.manage-amount-button-left{
+    width: 2vw;
+
+    text-decoration: none;
+
+    border: none;
+    border-radius: 10px 0px 0px 10px;
+
+    background-color: white;
+}
+
+.manage-amount-button-right{
+    width: 2vw;
+
+    text-decoration: none;
+
+    border: none;
+    border-radius: 0px 10px 10px 0px;
+
+    background-color: white;
+}
+
+.agregar-carrito-button{
+    width: 25vw;
+    margin-left: 2vh;
+
+    border: none;
+    border-radius: 10px;
+
+    color: white;
+    background-color: rgb(33, 37, 41);
+}

@@ -1,0 +1,30 @@
+.login-form-container{
+    height: 100vh;
+    width: 80vh;
+
+    justify-self: center;
+    align-self: center;
+}
+
+.login-form__button{
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+
+    padding: 0.5rem;
+
+    border-radius: 5px;
+    background-color: rgb(48, 128, 41);
+}
+
+.login-logo-container{
+    height: auto;
+
+    margin-top: 13vh;
+
+    text-align: center;
+}
+
+.login-logo__img{
+    width: 200px;
+}

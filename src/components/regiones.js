@@ -29,5 +29,4 @@ export const REGIONES_CHILE = [
     numero: "VIII",
     comunas: ["Concepción", "Talcahuano", "San Pedro de la Paz", "Chiguayante", "Los Ángeles"]
   }
-  // Puedes agregar más regiones y comunas fácilmente aquí si las necesitas
 ];

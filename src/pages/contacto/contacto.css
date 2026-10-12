@@ -1,0 +1,30 @@
+.contacto-form-container{
+    height: 100vh;
+    width: 80vh;
+
+    justify-self: center;
+    align-self: center;
+}
+
+.contacto-form__button{
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+
+    padding: 0.5rem;
+
+    border-radius: 5px;
+    background-color: rgb(48, 128, 41);
+}
+
+.contacto-logo-container{
+    height: auto;
+
+    margin-top: 13vh;
+
+    text-align: center;
+}
+
+.contacto-logo__img{
+    width: 200px;
+}

@@ -1,11 +1,21 @@
-// src/pages/PaginaSimple.jsx
+import './login.css'
+import Form from '../../components/LoginForm'
+
+import Logo from '../../assets/img/cat&cup-circle-background.png'
 
 function Login() {
   return (
-    <div>
-      <h1>Título de la Página</h1>
-      <p>Este es el contenido de mi nueva página.</p>
+    <>
+    <div className='login-logo-container'>
+      <img src={Logo} alt="" className='login-logo__img'/>
     </div>
+    <div className='login-form-container'>
+        <p className='fuzzy-bubbles-bold'>Iniciar sesión</p>
+        <hr />
+
+        <Form/>
+    </div>
+    </>
   );
 }
 

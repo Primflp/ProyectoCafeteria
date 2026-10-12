@@ -1,0 +1,142 @@
+/* adminHome.css */
+.admin-layout {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    background-color: #eef0f2;
+}
+
+/* Sidebar */
+.admin-sidebar {
+    width: 18vw;
+    background-color: #f8f9fa;
+    border-right: 1px solid #dcdcdc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem 1rem;
+}
+
+.admin-sidebar__logo {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.admin-sidebar__menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.admin-sidebar__link {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.admin-sidebar__link:hover {
+    background-color: #e2e8f0;
+}
+
+.admin-sidebar__footer {
+    border-top: 1px solid #dcdcdc;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Contenido Principal */
+.admin-content {
+    width: 82vw;
+    padding: 3rem 4rem;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.admin-header__title {
+    font-size: 32px;
+    margin: 0;
+}
+
+.admin-header__btn-nuevo {
+    background-color: rgb(33, 37, 41);
+    color: white;
+    padding: 0.7rem 1.8rem;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Tablas */
+.admin-table-container {
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.admin-table th {
+    background-color: #f1f3f5;
+    font-weight: bold;
+}
+
+.admin-table__link-product {
+    color: #0d6efd;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+/* Formularios */
+.admin-form-box {
+    background-color: white;
+    border: 1px solid #aaa;
+    padding: 3rem;
+    width: 50vw;
+    margin: 0 auto;
+    border-radius: 6px;
+}
+
+.admin-form-submit {
+    display: block;
+    width: 15vw;
+    margin: 2rem auto 0 auto;
+    padding: 0.8rem;
+    background-color: white;
+    border: 1px solid black;
+    font-weight: bold;
+    cursor: pointer;
+
+    text-align: center;
+    text-decoration: none;
+    color: black;
+}

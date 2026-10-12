@@ -17,6 +17,7 @@ function RegisterForm() {
   const comunasDisponibles = regionActual ? regionActual.comunas : [];
 
   return (
+    <>
     <Form>
       <Form.Group className="mb-3">
         <Form.Label>Rut</Form.Label>
@@ -98,8 +99,9 @@ function RegisterForm() {
     </Form.Group>
     {/* direccion */}
       
-      <Link to="/" className='register-form__button'>Registrar</Link>
+      <Link to="/" className='login-form__button'>Registrar</Link>
     </Form>
+    </>
   );
 }
 
