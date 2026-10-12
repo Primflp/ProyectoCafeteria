@@ -29,8 +29,7 @@ function Productos(){
         {/* search bar */}
         <div className="search-bar-container">
             <div className="search-bar-border">
-            <input id="searchBar" className="search-bar" type="text" placeholder="Buscar café"
-            />
+            <input id="searchBar" className="search-bar" type="text" placeholder="Buscar café"/>
             <img id="searchBarIcon" src={SearchBar} alt="" className="search-bar__icon"/>
             </div>
         </div>

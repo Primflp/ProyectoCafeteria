@@ -1,4 +1,5 @@
 import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
 
 function Footer() {
     return (
@@ -18,9 +19,7 @@ function Footer() {
                                     <strong>SOBRE NOSOTROS</strong>
                                 </h5>
                                 <p>Somos apasionados del cafe de especialidad. Nacimos con la mis...</p>
-                                <a href="nosotros.html" className="text-decoration-none text-white">
-                                    ⭑ <u>Saber mas</u>
-                                </a>
+                                <Link to='/nosotros' className="text-decoration-none text-white">⭑ <u>Saber mas</u></Link>
                             </div>
                             <div className="col-md-4 mb-3 fuzzy-bubbles-regular">
                                 <h5>
