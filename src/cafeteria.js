@@ -1,3 +1,78 @@
+export function validarRut(rut) {
+    const run = rut.trim().toUpperCase();
+    if (!/^\d{6,8}[0-9K]$/.test(run)) return false;
+
+    const cuerpo = run.slice(0, -1);
+    const digitoIngresado = run.slice(-1);
+    let suma = 0;
+    let multiplicador = 2;
+
+    for (let indice = cuerpo.length - 1; indice >= 0; indice -= 1) {
+        suma += Number(cuerpo[indice]) * multiplicador;
+        multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
+    }
+
+    const resultado = 11 - (suma % 11);
+    const digitoVerificador = resultado === 11 ? '0' : resultado === 10 ? 'K' : String(resultado);
+    return digitoIngresado === digitoVerificador;
+}
+
+export function validarProducto(producto) {
+    const errores = {
+        codigo: '',
+        nombre: '',
+        descripcion: '',
+        precio: '',
+        stock: '',
+        stockCritico: '',
+        categoria: '',
+    };
+    const precio = Number(producto.precio);
+    const stock = Number(producto.stock);
+    const stockCritico = producto.stockCritico === '' ? null : Number(producto.stockCritico);
+
+    if (!producto.codigo.trim()) {
+        errores.codigo = 'Este campo no puede estar vacío';
+    } else if (producto.codigo.trim().length < 3) {
+        errores.codigo = 'El código debe tener al menos 3 caracteres';
+    }
+
+    if (!producto.nombre.trim()) {
+        errores.nombre = 'Este campo no puede estar vacío';
+    } else if (producto.nombre.trim().length > 100) {
+        errores.nombre = 'El nombre no puede superar los 100 caracteres';
+    }
+
+    if (producto.descripcion.length > 500) {
+        errores.descripcion = 'La descripción no puede superar los 500 caracteres';
+    }
+
+    if (!producto.precio.trim()) {
+        errores.precio = 'Este campo no puede estar vacío';
+    } else if (!Number.isFinite(precio) || precio < 0) {
+        errores.precio = 'El precio debe ser un número igual o mayor a cero';
+    }
+
+    if (!producto.stock.trim()) {
+        errores.stock = 'Este campo no puede estar vacío';
+    } else if (!Number.isInteger(stock) || stock < 0) {
+        errores.stock = 'El stock debe ser un número entero igual o mayor a cero';
+    }
+
+    if (stockCritico !== null && (!Number.isInteger(stockCritico) || stockCritico < 0)) {
+        errores.stockCritico = 'El stock crítico debe ser un entero igual o mayor a cero';
+    }
+
+    if (!producto.categoria) {
+        errores.categoria = 'Debes seleccionar una categoría';
+    }
+
+    return {
+        valido: Object.values(errores).every((error) => !error),
+        errores,
+    };
+}
+
 export function validarLogin(correo, password) {
     if (!correo || correo.trim() === "") return { valido: false, mensaje: "El correo es requerido" };
     if (correo.length > 100) return { valido: false, mensaje: "El correo no puede superar los 100 caracteres" };
@@ -16,11 +91,11 @@ export function validarContacto(nombre, correo, comentario) {
     if (!nombre || nombre.trim() === "") return { valido: false, mensaje: "El nombre es requerido" };
     if (nombre.length > 100) return { valido: false, mensaje: "El nombre no puede superar los 100 caracteres" };
 
-    if (correo && correo.length > 100) return { valido: false, mensaje: "El correo no puede superar los 100 caracteres" };
-    if (correo) {
-        const dominiosPermitidos = ["@duoc.cl", "@profesor.duoc.cl", "@gmail.com"];
-        const correoValido = dominiosPermitidos.some(dominio => correo.endsWith(dominio));
-        if (!correoValido) return { valido: false, mensaje: "Solo correos @duoc.cl, @profesor.duoc.cl y @gmail.com" };
+    const correoIngresado = correo ?? "";
+    const correoPermitido = /^[^\s@]+@(?:duoc\.cl|profesor\.duoc\.cl|gmail\.com)$/i;
+    if (correoIngresado.length > 100) return { valido: false, mensaje: "El correo no puede superar los 100 caracteres" };
+    if (correoIngresado.trim() && !correoPermitido.test(correoIngresado)) {
+        return { valido: false, mensaje: "Solo correos @duoc.cl, @profesor.duoc.cl y @gmail.com" };
     }
 
     if (!comentario || comentario.trim() === "") return { valido: false, mensaje: "El comentario es requerido" };

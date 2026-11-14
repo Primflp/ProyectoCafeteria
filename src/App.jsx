@@ -35,7 +35,11 @@ import AdminHome from './pages/administrador/adminHome/adminHome'
 import AdminProductos from './pages/administrador/adminHome/adminProductos'
 import AdminUsuarios from './pages/administrador/adminHome/adminUsuarios'
 import AdminNuevoUsuario from './pages/administrador/adminHome/adminNuevoUsuario'
+import AdminNuevoProducto from './pages/administrador/adminHome/adminNuevoProducto'
+import VendedorHome from './pages/vendedor/vendedorHome'
+import VendedorProductos from './pages/vendedor/vendedorProductos'
 import Carrito from './pages/carrito/carrito'
+import CompraExitosa from './pages/carrito/compraExitosa'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -54,6 +58,8 @@ function App() {
         <Route path="/contacto" element={<Contacto/>} />
         <Route path="/productos" element={<Productos/>} />
         <Route path="/carrito" element={<Carrito/>} />
+        <Route path="/carrito/compraExitosa" element={<CompraExitosa/>} />
+        
 
         {/* detalle de cada producto */}
         <Route path="/detalle1" element={<Detalle1/>} />
@@ -72,8 +78,13 @@ function App() {
         {/* administrador */}
         <Route path="/admin/home" element={<AdminHome/>} />
         <Route path="/admin/productos" element={<AdminProductos/>} />
+        <Route path="/admin/productos/crear" element={<AdminNuevoProducto/>} />
         <Route path="/admin/usuarios" element={<AdminUsuarios/>} />
         <Route path="/admin/usuarios/crear" element={<AdminNuevoUsuario/>} />
+
+        {/* vendedor */}
+        <Route path="/vendedor/home" element={<VendedorHome/>} />
+        <Route path="/vendedor/productos" element={<VendedorProductos/>} />
         
       </Routes>
       <Footer/>

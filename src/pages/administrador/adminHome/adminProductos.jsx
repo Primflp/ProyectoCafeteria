@@ -25,6 +25,9 @@ function AdminProductos() {
             <main className="admin-content">
                 <div className="admin-header">
                     <h1 className="admin-header__title fuzzy-bubbles-bold">Productos</h1>
+                    <Link to="/admin/productos/crear" className="admin-header__btn-nuevo fuzzy-bubbles-bold">
+                        Nuevo Producto
+                    </Link>
                 </div>
 
                 <div className="admin-table-container">

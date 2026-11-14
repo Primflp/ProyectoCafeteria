@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './carrito.css';
 
@@ -6,18 +7,27 @@ import imagen2 from '../../assets/img/cafe-arabe-02.png'
 import imagen3 from '../../assets/img/cafe-arabe-03.png'
 
 function Carrito() {
-    const productosCarrito = [
+    const [productosCarrito, setProductosCarrito] = useState([
         { id: 1, nombre: "Occaffe Grano Crema E Aroma 100% Arabica 1kg", precio: "$30.990", cantidad: 1, imagen: imagen1},
         { id: 2, nombre: "Kimbo Filtro 100% Arábico 226,8gr Grano Molido", precio: "$7.990", cantidad: 1, imagen: imagen2 },
         { id: 3, nombre: "Borbone 100% Arabica 1kg Grano Entero", precio: "$34.990", cantidad: 1, imagen: imagen3 },
-    ];
+    ]);
+
+    const cambiarCantidad = (id, cambio) => {
+        setProductosCarrito((productos) =>
+            productos.map((producto) =>
+                producto.id === id
+                    ? { ...producto, cantidad: Math.max(1, producto.cantidad + cambio) }
+                    : producto
+            )
+        );
+    };
 
     return (
         <div className="carrito-page">
             <h1 className="fuzzy-bubbles-bold carrito-page__title">Mi carrito de compras</h1>
 
             <div className="carrito-container">
-                {/* Listado de productos */}
                 <div className="carrito-list-section">
                     <div className="admin-table-container">
                         <table className="admin-table">
@@ -50,14 +60,28 @@ function Carrito() {
                                         </td>
                                         <td>
                                             <div className="carrito-quantity-control">
-                                                <button className="carrito-quantity-btn">➖</button>
+                                                <button
+                                                    type="button"
+                                                    className="carrito-quantity-btn"
+                                                    onClick={() => cambiarCantidad(prod.id, -1)}
+                                                    aria-label={`Disminuir cantidad de ${prod.nombre}`}
+                                                >
+                                                    ➖
+                                                </button>
                                                 <input 
                                                     type="text" 
                                                     value={prod.cantidad} 
                                                     readOnly 
                                                     className="carrito-quantity-input" 
                                                 />
-                                                <button className="carrito-quantity-btn">➕</button>
+                                                <button
+                                                    type="button"
+                                                    className="carrito-quantity-btn"
+                                                    onClick={() => cambiarCantidad(prod.id, 1)}
+                                                    aria-label={`Aumentar cantidad de ${prod.nombre}`}
+                                                >
+                                                    ➕
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -67,31 +91,15 @@ function Carrito() {
                     </div>
                 </div>
 
-                {/* Panel lateral estático (Total, Cupón y Pagar) */}
                 <div className="carrito-summary-card">
                     <div className="carrito-summary-header">
                         <h3 className="fuzzy-bubbles-bold carrito-summary-title">TOTAL:</h3>
                         <span className="fuzzy-bubbles-bold carrito-summary-total">$ 24.000</span>
                     </div>
 
-                    <div className="carrito-coupon-section">
-                        <label className="carrito-coupon-label">
-                            Ingrese el cupón de descuento
-                        </label>
-                        <div className="carrito-coupon-group">
-                            <input 
-                                type="text" 
-                                className="carrito-coupon-input" 
-                            />
-                            <button className="carrito-coupon-btn">
-                                APLICAR
-                            </button>
-                        </div>
-                    </div>
-
-                    <button className="fuzzy-bubbles-bold carrito-pay-btn">
+                    <Link className='fuzzy-bubbles-bold carrito-pay-btn' to={'/carrito/compraExitosa'}>
                         PAGAR
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>

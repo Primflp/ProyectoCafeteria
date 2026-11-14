@@ -7,9 +7,19 @@ import img1 from '../../assets/img/granosIcon.png'
 import img2 from '../../assets/img/hojaIcon.png'
 import img3 from '../../assets/img/gotaIcon.png'
 
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 function Home() {
+    const benefitCardRef = useRef(null);
+
+    const scrollToBenefits = () => {
+        benefitCardRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+    };
+
     return (
         <>
         {/* imagen */}
@@ -24,14 +34,18 @@ function Home() {
                 Grano entero, molido, solube e instantáneo
             </p>
             </div>
-            <div className="menu-overlay__down-arrow">
+            <button
+                type="button"
+                className="menu-overlay__down-arrow"
+                onClick={scrollToBenefits}
+                aria-label="Desplazarse a los beneficios del café"
+            >
             <img
                 src={downArrow}
                 alt=""
                 className="spacer__icon"
-                id="downArrow"
             />
-            </div>
+            </button>
             <div className='account-access-container'>
                 <Link to="/register" className='account-access__sign-in__text'>Registrar usuario</Link>
                 <Link to="/login" className='account-access__log-in__text'>Iniciar Sesion</Link>
@@ -56,7 +70,7 @@ function Home() {
         <hr className="divide-line" />
         {/* feautre card */}
         <div className="feature-cards-container">
-            <div id="benefCardCenter" className="feature-card">
+            <div ref={benefitCardRef} className="feature-card">
             <img
                 src={img1}
                 alt=""

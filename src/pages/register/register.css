@@ -1,12 +1,12 @@
 .register-form-container{
-    height: 100vh;
+    height: auto;
     width: 80vh;
 
     justify-self: center;
     align-self: center;
 
     margin-top: 20vh;
-    margin-bottom: 15vh;
+    margin-bottom: 20vh;
 }
 
 .register-form__button{

@@ -4,10 +4,10 @@ import './adminHome.css'
 
 function AdminUsuarios() {
     const usuarios = [
-        { id: 1, nombre: "Alejandro Silva", rol: "Administrador"},
-        { id: 2, nombre: "Camila Fuentes", rol: "Empleado"},
+        { id: 1, nombre: "Alejandro Silva", rol: "Admin"},
+        { id: 2, nombre: "Camila Fuentes", rol: "Vendedor"},
         { id: 3, nombre: "Matías Loyola", rol: "Cliente"},
-        { id: 4, nombre: "Valentina Paz", rol: "Empleado"},
+        { id: 4, nombre: "Valentina Paz", rol: "Vendedor"},
         { id: 5, nombre: "Gonzalo Herrera", rol: "Cliente"},
     ];
 
@@ -33,11 +33,11 @@ function AdminUsuarios() {
                             </tr>
                         </thead>
                         <tbody>
-                            {usuarios.map((prod) => (
-                                <tr key={prod.id}>
-                                    <td>#{prod.id}</td>
-                                    <td>{prod.nombre}</td>
-                                    <td>{prod.rol}</td>
+                            {usuarios.map((usuario) => (
+                                <tr key={usuario.id}>
+                                    <td>#{usuario.id}</td>
+                                    <td>{usuario.nombre}</td>
+                                    <td>{usuario.rol}</td>
                                 </tr>
                             ))}
                         </tbody>

@@ -13,7 +13,6 @@ function SidebarAdmin() {
                     <Link to="/admin/home" className="admin-sidebar__link">Dashboard</Link>
                     <Link to="/admin/productos" className="admin-sidebar__link">Productos</Link>
                     <Link to="/admin/usuarios" className="admin-sidebar__link">Usuarios</Link>
-                    <Link to="/admin/reportes" className="admin-sidebar__link">Reportes</Link>
                 </nav>
             </div>
         </aside>
