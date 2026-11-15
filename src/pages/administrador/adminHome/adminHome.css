@@ -84,6 +84,17 @@
     font-size: 14px;
 }
 
+.admin-header__btn-nuevo__sidebar {
+    background-color: rgb(155, 9, 9);
+    color: white;
+    padding: 0.7rem 1.8rem;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+}
+
 /* Tablas */
 .admin-table-container {
     background-color: white;

@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { REGIONES_CHILE } from './regiones';
 import { validarRut } from '../cafeteria';
+import api from '../services/Api'
+import axios from 'axios';
 
 const initialForm = {
   rut: '',
@@ -26,6 +28,7 @@ const initialWarnings = Object.fromEntries(
 function RegisterForm() {
   const [form, setForm] = useState(initialForm);
   const [warnings, setWarnings] = useState(initialWarnings);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const validarFormulario = (valores) => {
@@ -105,8 +108,30 @@ function RegisterForm() {
     validarFormulario(valoresActualizados);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const usuarioData = {
+            runUsuario: form.rut,
+            nombresUsuario: form.nombre,
+            apellidosUsuario: form.apellidos,
+            correoUsuario: form.correo,
+            contrasenaUsuario: form.contrasena,
+            fechaNacimientoUsuario: form.fechaNacimiento || null,
+            direccionUsuario: form.direccion,
+            rolUsuario: 'Cliente',
+            estadoCuentaUsuario: 'ACTIVO'
+    };
+
+    try {
+      console.log(usuarioData)
+
+      await api.post('/api/v2/usuario/guardar', usuarioData);
+
+      navigate('/')
+    } catch (err) {
+        console.error('Error al registrar usuario', err)
+    }
 
     if (validarFormulario(form)) {
       navigate('/');

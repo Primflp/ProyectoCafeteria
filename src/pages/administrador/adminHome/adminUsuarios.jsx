@@ -1,15 +1,27 @@
 import { Link } from 'react-router-dom';
 import SidebarAdmin from '../../../components/AdminSideBar'
 import './adminHome.css'
+import { useEffect, useState } from 'react';
+import api from '../../../services/Api'
 
 function AdminUsuarios() {
-    const usuarios = [
-        { id: 1, nombre: "Alejandro Silva", rol: "Admin"},
-        { id: 2, nombre: "Camila Fuentes", rol: "Vendedor"},
-        { id: 3, nombre: "Matías Loyola", rol: "Cliente"},
-        { id: 4, nombre: "Valentina Paz", rol: "Vendedor"},
-        { id: 5, nombre: "Gonzalo Herrera", rol: "Cliente"},
-    ];
+
+    const [error, setError] = useState('');
+    const [usuarios, setUsuarios] = useState([]);
+
+    useEffect (() => {
+        const obtenerUsuarios = async () => {
+            try {
+                const response = await api.get('/api/v2/usuario/buscartodos');
+                setUsuarios(response.data);
+            } catch (err) {
+                console.error('Error al obtener los datos: ', err);
+                setError('No se pudieron cargar los datos.')
+            }
+        };
+
+        obtenerUsuarios();
+    }, []);
 
     return (
         <div className="admin-layout">
@@ -34,10 +46,10 @@ function AdminUsuarios() {
                         </thead>
                         <tbody>
                             {usuarios.map((usuario) => (
-                                <tr key={usuario.id}>
-                                    <td>#{usuario.id}</td>
-                                    <td>{usuario.nombre}</td>
-                                    <td>{usuario.rol}</td>
+                                <tr key={usuario.idUsuario}>
+                                    <td>#{usuario.idUsuario}</td>
+                                    <td>{usuario.nombresUsuario}</td>
+                                    <td>{usuario.rolUsuario}</td>
                                 </tr>
                             ))}
                         </tbody>

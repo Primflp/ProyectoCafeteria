@@ -2,11 +2,12 @@ import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
+import api from '../services/Api'
 
 function LoginForm() {
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
-  const [warnings, setWarnings] = useState({ correo: '', contrasena: '' });
+  const [warnings, setWarnings] = useState({ correo: '', contrasena: '', general: ''});
   const navigate = useNavigate();
 
   const validarFormulario = (correoVal, contrasenaVal) => {
@@ -29,27 +30,34 @@ function LoginForm() {
     return !errores.correo && !errores.contrasena;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const admin =
-      correo === 'admin@duoc.cl'
-      contrasena === 'bestadmin'
+    if(!validarFormulario(correo, contrasena)) {
+      return;
+    }
 
-    const vendedor =
-      correo === 'vendedor@duoc.cl'
-      contrasena === 'vendebest'
+    try {
+      const response = await api.post('/auth/login', {
+        email: correo,
+        password: contrasena
+      });
 
-    if (validarFormulario(correo, contrasena)) {
-      if (admin) {
-        navigate('/admin/home')
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+
+      if (correo === 'admin@duoc.cl' && contrasena === 'bestadmin') {
+        navigate('/admin/home');
+      } else if (correo === 'vendedor@duoc.cl' && contrasena === 'vendebest') {
+        navigate('/vendedor/home');
+      } else {
+        navigate('/');
       }
-      else if (vendedor) {
-        navigate('/vendedor/home')
-      }
-      else{
-        navigate('/')
-      }
+    } catch {
+      setWarnings (prev => ({
+        ...prev,
+        general: 'Credenciales invalidas'
+      }))
     }
   };
 

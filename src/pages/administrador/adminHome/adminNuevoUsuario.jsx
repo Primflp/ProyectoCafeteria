@@ -6,6 +6,7 @@ import SidebarAdmin from '../../../components/AdminSideBar';
 import { REGIONES_CHILE } from '../../../components/regiones.js';
 import { validarRut } from '../../../cafeteria';
 import './adminHome.css';
+import api from '../../../services/Api'
 
 function AdminNuevoUsuario() {
     const [form, setForm] = useState({
@@ -119,11 +120,27 @@ function AdminNuevoUsuario() {
         validarFormulario(valoresActualizados);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (validarFormulario(form)) {
+        const usuarioData = {
+            runUsuario: form.rut,
+            nombresUsuario: form.nombre,
+            apellidosUsuario: form.apellidos,
+            correoUsuario: form.correo,
+            contrasenaUsuario: form.contrasena,
+            fechaNacimientoUsuario: form.fechaNacimiento || null,
+            direccionUsuario: form.direccion,
+            rolUsuario: form.rol.charAt(0).toUpperCase() + form.rol.slice(1),
+            estadoCuentaUsuario: 'ACTIVO'
+        };
+
+        try {
+            await api.post('/api/v2/usuario/guardar', usuarioData);
+
             navigate('/admin/usuarios');
+        } catch (err) {
+            console.error('Error al registrar usuario', err);
         }
     };
 
