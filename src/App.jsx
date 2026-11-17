@@ -40,6 +40,7 @@ import VendedorHome from './pages/vendedor/vendedorHome'
 import VendedorProductos from './pages/vendedor/vendedorProductos'
 import Carrito from './pages/carrito/carrito'
 import CompraExitosa from './pages/carrito/compraExitosa'
+import { RutaProtegida } from './auth/RutaProtegida'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -83,8 +84,16 @@ function App() {
         <Route path="/admin/usuarios/crear" element={<AdminNuevoUsuario/>} />
 
         {/* vendedor */}
-        <Route path="/vendedor/home" element={<VendedorHome/>} />
-        <Route path="/vendedor/productos" element={<VendedorProductos/>} />
+        <Route path="/vendedor/home" element={
+          <RutaProtegida rolRequerido="ROLE_VENDEDOR">
+            <VendedorHome/>
+          </RutaProtegida>
+          } />
+        <Route path="/vendedor/productos" element={
+          <RutaProtegida rolRequerido="ROLE_VENDEDOR">
+            <VendedorProductos/>
+          </RutaProtegida>
+          } />
         
       </Routes>
       <Footer/>

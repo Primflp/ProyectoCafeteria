@@ -28,3 +28,7 @@
 .login-logo__img{
     width: 200px;
 }
+
+.login-google__button{
+    justify-self: center;
+}

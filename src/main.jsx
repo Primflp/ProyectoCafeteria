@@ -1,14 +1,18 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import 'bootstrap/dist/css/bootstrap.css'
-// Put any other imports below so that CSS from your
-// components takes precedence over default styles.
 
 import './index.css'
 import App from './App.jsx'
 
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+const GOOGLE_CLIENT_ID = "745259504688-pokssjjth0m8qdm7unm3ca4al5omem1g.apps.googleusercontent.com";
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <App />
+    </GoogleOAuthProvider>
   </StrictMode>,
 )

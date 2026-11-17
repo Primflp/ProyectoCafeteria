@@ -10,11 +10,18 @@
 }
 
 .register-form__button{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
     text-decoration: none;
     color: white;
     cursor: pointer;
 
+    width: 50%;
+
     padding: 0.5rem;
+    margin-bottom: 2vh;
 
     border-radius: 5px;
     background-color: rgb(48, 128, 41);
