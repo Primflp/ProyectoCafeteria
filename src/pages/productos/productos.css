@@ -73,7 +73,7 @@
     grid-template-columns: 1fr;
     border: 2px solid rgba(0, 0, 0, 0.237);
 
-    place-items: center;
+
 
     overflow: hidden;
 
@@ -88,6 +88,7 @@
     height: 180px;
     object-fit: cover;
     margin-top: 0;
+    place-self: center;
 }
 
 .sell-card__text{
@@ -95,9 +96,17 @@
     margin: 0 7%;
 }
 
+.sell-card__text__name{
+    line-height: 1;
+    margin: 0 7%;
+    max-height: 3.5rem;
+    overflow: hidden;
+}
+
 .sell-card__button{
     text-align: center;
     text-decoration: none;
+    place-self: center;
 
     border: 2px solid rgb(241, 233, 229);
     border-radius: 2px;

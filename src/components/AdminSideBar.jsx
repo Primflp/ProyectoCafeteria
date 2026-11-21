@@ -5,6 +5,7 @@ function SidebarAdmin() {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
         
         setAuth({ token: null, isAuthenticated: false });
         

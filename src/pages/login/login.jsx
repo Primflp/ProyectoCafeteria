@@ -19,7 +19,16 @@ function Login() {
 
       const response = await axios.post('http://localhost:8081/auth/google', {token: tokenGoogle});
 
-      localStorage.setItem('token', response.data.token);
+      const { token, usuario} = response.data
+
+      if(token) {
+        localStorage.setItem('token', token)
+      }
+
+      if(usuario) {
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+      }
+
       navigate('/');
 
     } catch (err) {

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
-import {apiUsuarios} from '../services/Api'
+import {apiUsuarios} from '../services/api'
 
 function LoginForm() {
   const [correo, setCorreo] = useState('');
@@ -43,8 +43,15 @@ function LoginForm() {
         password: contrasena
       });
 
-      const token = response.data.token;
-      localStorage.setItem('token', token);
+      const { token, usuario } = response.data;
+
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+
+      if (usuario) {
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+      }
 
       if (correo === 'admin@duoc.cl' && contrasena === 'bestadmin') {
         navigate('/admin/home');
@@ -94,6 +101,8 @@ function LoginForm() {
         />
         {warnings.contrasena && <Form.Text className="text-danger">{warnings.contrasena}</Form.Text>}
       </Form.Group>
+
+      {warnings.general && <div className="text-danger mb-3">{warnings.general}</div>}
       <Button type="submit" className="register-form__button">
         Iniciar sesión
       </Button>

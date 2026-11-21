@@ -18,6 +18,11 @@ export const apiProductos = axios.create({
 })
 apiProductos.interceptors.request.use(agregarToken)
 
+export const apiBoletas = axios.create({
+  baseURL: 'http://localhost:8083'
+})
+apiBoletas.interceptors.request.use(agregarToken)
+
 
 
 export default apiUsuarios;

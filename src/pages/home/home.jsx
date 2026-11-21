@@ -7,10 +7,22 @@ import img1 from '../../assets/img/granosIcon.png'
 import img2 from '../../assets/img/hojaIcon.png'
 import img3 from '../../assets/img/gotaIcon.png'
 
-import { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 function Home() {
+    const [usuario, setUsuario] = useState(null);
+    const location = useLocation();
+
+    useEffect(() => {
+        try {
+            const raw = localStorage.getItem('usuario');
+            setUsuario(raw ? JSON.parse(raw) : null);
+        } catch {
+            setUsuario(null);
+        }
+    }, [location]);
+
     const benefitCardRef = useRef(null);
 
     const scrollToBenefits = () => {
@@ -46,10 +58,19 @@ function Home() {
                 className="spacer__icon"
             />
             </button>
-            <div className='account-access-container'>
-                <Link to="/register" className='account-access__sign-in__text'>Registrar usuario</Link>
-                <Link to="/login" className='account-access__log-in__text'>Iniciar Sesion</Link>
-            </div>
+
+            {usuario ? (
+                <div className='account-acceded-container'>
+                    <p className='account-acceded-container__text'>Bievenido {usuario.nombresUsuario}</p>
+                </div>
+            ) : (
+                <div className='account-access-container'>
+                    <Link to="/register" className='account-access__sign-in__text'>Registrar usuario</Link>
+                    <Link to="/login" className='account-access__log-in__text'>Iniciar Sesion</Link>
+                </div>
+            )}
+
+            
         </div>
         {/* imagen */}
 

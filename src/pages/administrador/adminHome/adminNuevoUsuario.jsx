@@ -6,7 +6,7 @@ import SidebarAdmin from '../../../components/AdminSideBar';
 import { REGIONES_CHILE } from '../../../components/regiones.js';
 import { validarRut } from '../../../cafeteria';
 import './adminHome.css';
-import {apiUsuarios} from '../../../services/Api'
+import {apiUsuarios} from '../../../services/api'
 
 function AdminNuevoUsuario() {
     const [form, setForm] = useState({

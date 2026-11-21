@@ -1,12 +1,34 @@
 import { Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../assets/img/cat&cup.png';
 
 import IconoCarrito from '../assets/img/carrito.png';
 
 import '../index.css';
+import { useEffect, useState } from 'react';
 
 function NavBar() {
+
+    const [usuario, setUsuario] = useState(null);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        try {
+            const raw = localStorage.getItem('usuario');
+            setUsuario(raw ? JSON.parse(raw) : null);
+        } catch {
+            setUsuario(null);
+        }
+    }, [location]);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        setUsuario(null);
+        navigate('/login');
+    };
+
     return (
         <Navbar expand={false} className="navbar navbar-dark bg-dark">
             <Container fluid className='custom-navbar position-relative'>
@@ -59,6 +81,14 @@ function NavBar() {
                                 &copy; 2026 | Cat & Cup
                             </p>
                         </div>
+                            {usuario && (
+                                <div className='account-logout-container'>    
+                                    <Link className='account-logout-container__text'
+                                        onClick={handleLogout} to="/"
+                                        >Cerrar sesión</Link>
+                                </div>
+                            )}
+                        
                     </Offcanvas.Body>
                 </Navbar.Offcanvas>
             </Container>

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import SidebarAdmin from '../../../components/AdminSideBar'
 import './adminHome.css'
 import { useEffect, useState } from 'react';
-import {apiUsuarios} from '../../../services/Api'
+import {apiUsuarios} from '../../../services/api'
 
 function AdminUsuarios() {
 

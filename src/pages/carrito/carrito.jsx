@@ -1,17 +1,74 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './carrito.css';
+import { apiBoletas, apiProductos } from '../../services/api'
 
-import imagen1 from '../../assets/img/cafe-arabe-01.png'
-import imagen2 from '../../assets/img/cafe-arabe-02.png'
-import imagen3 from '../../assets/img/cafe-arabe-03.png'
+import imagen1 from '../../../public/productos/cafe-arabe-01.png'
+import imagen2 from '../../../public/productos/cafe-arabe-02.png'
+import imagen3 from '../../../public/productos/cafe-arabe-03.png'
 
 function Carrito() {
-    const [productosCarrito, setProductosCarrito] = useState([
-        { id: 1, nombre: "Occaffe Grano Crema E Aroma 100% Arabica 1kg", precio: "$30.990", cantidad: 1, imagen: imagen1},
-        { id: 2, nombre: "Kimbo Filtro 100% Arábico 226,8gr Grano Molido", precio: "$7.990", cantidad: 1, imagen: imagen2 },
-        { id: 3, nombre: "Borbone 100% Arabica 1kg Grano Entero", precio: "$34.990", cantidad: 1, imagen: imagen3 },
-    ]);
+
+    const [carrito, setCarrito] = useState(null);
+    const [productosMap, setProductosMap] = useState(new Map());
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+    const cargarDatos = async () => {
+        try {
+            const usuarioGuardado = JSON.parse(localStorage.getItem('usuario') || 'null');
+            const idUsuario = usuarioGuardado?.idUsuario;
+
+            if (!idUsuario) {
+                setError('Inicia sesión para ver tu carrito.');
+                return;
+            }
+            
+            const [resCarrito, resProductos] = await Promise.all([
+                apiBoletas.get('/api/v2/msboleta/carrito/obtenerCarrito/${idUsuario}'),
+                apiProductos.get('/api/v2/producto/buscartodos')
+            ]);
+
+            setCarrito(resCarrito.data);
+
+            const listaProductos = Array.isArray(resProductos.data) ? resProductos.data : [];
+
+            const mapa = new Map();
+
+            for (const prod of listaProductos) {
+                const id = prod.idProducto ?? prod.id;
+                mapa.set(id, prod);
+            }
+
+            setProductosMap(mapa);
+
+            setError('');
+        } catch (err) {
+            console.error('Error al cargar carrito o productos:', err);
+            setError('No se pudieron cargar los datos del carrito.');
+        }
+    };
+
+    cargarDatos();
+    }, []);
+
+
+    const detalles = carrito?.listaDetalleCarritos ?? [];
+    const detallesConInfo = detalles.map((item) => {
+    const prod = productosMap.get(item.idProducto);
+    const nombre = prod?.nombreProducto ?? prod?.nombre ?? `Producto #${item.idProducto}`;
+    const precio = prod?.precioProducto ?? prod?.precio ?? 0;
+    const subtotal = precio * item.cantidad;
+
+    return {
+        ...item,
+        nombre,
+        precio,
+        subtotal,
+    };
+    });
+
+    const totalCarrito = detallesConInfo.reduce((acc, item) => acc + item.subtotal, 0);
 
     const cambiarCantidad = (id, cambio) => {
         setProductosCarrito((productos) =>
@@ -36,56 +93,51 @@ function Carrito() {
                                     <th>Producto</th>
                                     <th>Precio</th>
                                     <th>Cantidad</th>
-                                    <th>imagen</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {productosCarrito.map((prod) => (
-                                    <tr key={prod.id}>
+                                {detallesConInfo.map((item) => (
+                                    <tr key={item.idProducto ?? item.idDetalleCarrito}>
                                         <td>
                                             <div className="carrito-product-item">
                                                 <div className="carrito-product-img">
-                                                    <img src={prod.imagen} alt="" style={{height: '100%'}}/>
+                                                    {item.idProducto === 1 && <img src={imagen1} alt={item.nombre} />}
+                                                    {item.idProducto === 2 && <img src={imagen2} alt={item.nombre} />}
+                                                    {item.idProducto === 3 && <img src={imagen3} alt={item.nombre} />}
                                                 </div>
                                                 <div>
-                                                    <Link to={`/detalle${prod.id}`} className="admin-table__link-product carrito-product-name">
-                                                        {prod.nombre}
+                                                    <Link
+                                                        to={`/detalle/${item.idProducto}`}
+                                                        className="admin-table__link-product carrito-product-name"
+                                                    >
+                                                        {item.nombre}
                                                     </Link>
                                                     <small className="carrito-product-desc"></small>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="carrito-product-price">
-                                            {prod.precio}
+                                            ${item.precio}
                                         </td>
                                         <td>
                                             <div className="carrito-quantity-control">
-                                                <button
-                                                    type="button"
-                                                    className="carrito-quantity-btn"
-                                                    onClick={() => cambiarCantidad(prod.id, -1)}
-                                                    aria-label={`Disminuir cantidad de ${prod.nombre}`}
-                                                >
-                                                    ➖
-                                                </button>
                                                 <input 
                                                     type="text" 
-                                                    value={prod.cantidad} 
+                                                    value={item.cantidad}
                                                     readOnly 
                                                     className="carrito-quantity-input" 
                                                 />
-                                                <button
-                                                    type="button"
-                                                    className="carrito-quantity-btn"
-                                                    onClick={() => cambiarCantidad(prod.id, 1)}
-                                                    aria-label={`Aumentar cantidad de ${prod.nombre}`}
-                                                >
-                                                    ➕
-                                                </button>
                                             </div>
                                         </td>
                                     </tr>
                                 ))}
+                                {detallesConInfo.length === 0 && (
+                                    <tr>
+                                        <td colSpan="3" className="carrito-product-desc">
+                                            {error || 'El carrito está vacío.'}
+                                        </td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -94,7 +146,9 @@ function Carrito() {
                 <div className="carrito-summary-card">
                     <div className="carrito-summary-header">
                         <h3 className="fuzzy-bubbles-bold carrito-summary-title">TOTAL:</h3>
-                        <span className="fuzzy-bubbles-bold carrito-summary-total">$ 24.000</span>
+                        <span className="fuzzy-bubbles-bold carrito-summary-total">
+                            ${totalCarrito}
+                        </span>
                     </div>
 
                     <Link className='fuzzy-bubbles-bold carrito-pay-btn' to={'/carrito/compraExitosa'}>

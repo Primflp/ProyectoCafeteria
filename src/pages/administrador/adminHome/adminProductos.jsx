@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import SidebarAdmin from '../../../components/AdminSideBar'
 import './adminHome.css'
 import { useEffect, useState } from 'react';
-import {apiProductos} from '../../../services/Api';
+import {apiProductos} from '../../../services/api';
 
 function AdminProductos() {
 

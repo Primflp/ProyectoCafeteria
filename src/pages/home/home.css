@@ -55,6 +55,51 @@
         transition: ease-in-out 0.5s;
     }
 
+    .account-acceded-container{
+        top: 5vh;
+        left: 0;
+
+        padding: 0.7rem 1.5rem;
+        
+        position: absolute;
+        height: auto;
+        width: auto;
+
+        background-color: rgb(143, 115, 96);
+
+        border-radius: 0 16px 16px 0;
+    }
+
+        .account-acceded-container__text{
+            display: block;
+            margin: auto;
+
+            color: white;
+            font-size: 20px;
+            
+        }
+
+    .account-logout-container{
+        background: white;
+        
+        place-self: center;
+
+        position: absolute;
+        bottom: 5vh;
+
+        padding: 0.3rem 0.5rem;
+        border-radius: 6px;
+    }
+
+    .account-logout-container__text{
+        color: black;
+        text-decoration: none;
+
+        display: block;
+        margin: auto;
+
+    }
+
     .account-access-container{
         display: grid;
         grid-template-columns: 1fr 1fr;

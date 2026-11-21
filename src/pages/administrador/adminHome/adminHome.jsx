@@ -2,8 +2,8 @@ import { Card, Col, Row } from 'react-bootstrap';
 import SidebarAdmin from '../../../components/AdminSideBar'
 import './adminHome.css'
 import { useEffect, useState } from 'react';
-import {apiUsuarios} from '../../../services/Api'
-import {apiProductos} from '../../../services/Api'
+import {apiUsuarios} from '../../../services/api'
+import {apiProductos} from '../../../services/api'
 
 function AdminHome() {
 

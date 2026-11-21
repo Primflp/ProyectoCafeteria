@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import SidebarAdmin from '../../../components/AdminSideBar';
 import { validarProducto } from '../../../cafeteria';
 import './adminHome.css';
-import { apiProductos } from '../../../services/Api';
+import { apiProductos } from '../../../services/api';
 
 const initialForm = {
     codigo: '',
