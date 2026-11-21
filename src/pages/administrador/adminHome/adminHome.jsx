@@ -2,25 +2,45 @@ import { Card, Col, Row } from 'react-bootstrap';
 import SidebarAdmin from '../../../components/AdminSideBar'
 import './adminHome.css'
 import { useEffect, useState } from 'react';
-import api from '../../../services/Api'
+import {apiUsuarios} from '../../../services/Api'
+import {apiProductos} from '../../../services/Api'
 
 function AdminHome() {
 
-    const [error, setError] = useState('');
+    const [errorUsuarios, setErrorUsuarios] = useState('');
+    const [errorProductos, setErrorProductos] = useState('');
     const [usuarios, setUsuarios] = useState([]);
 
     useEffect (() => {
         const obtenerUsuarios = async () => {
             try {
-                const response = await api.get('/api/v2/usuario/buscartodos');
+                const response = await apiUsuarios.get('/api/v2/usuario/buscartodos');
                 setUsuarios(response.data);
+                setErrorUsuarios('');
             } catch (err) {
-                console.error('Error al obtener los datos: ', err);
-                setError('No se pudieron cargar los datos.')
+                console.error('Error al obtener los usuarios: ', err);
+                setErrorUsuarios('No se pudieron cargar los datos.')
             }
         };
 
         obtenerUsuarios();
+    }, []);
+
+    const [productos, setProductos] = useState([]);
+
+    useEffect (() => {
+        const obtenerProductos = async () => {
+            try {
+                const response = await apiProductos.get('/api/v2/producto/buscartodos');
+                setProductos(response.data);
+                setErrorProductos('');
+            } catch (err) {
+                console.error('Error al obtener los productos: ', err);
+                setErrorProductos('No se pudieron cargar los datos.')
+            }
+        };
+
+        obtenerProductos();
     }, []);
 
 
@@ -39,7 +59,8 @@ function AdminHome() {
                     <Card className="shadow-sm border-0">
                         <Card.Body>
                         <Card.Subtitle className="text-muted mb-2">Total de Productos</Card.Subtitle>
-                        <Card.Title className="fs-3">12</Card.Title>
+                        <Card.Title className="fs-3">{productos.length}</Card.Title>
+                        {errorProductos && <Card.Text className="text-danger">{errorProductos}</Card.Text>}
                         </Card.Body>
                     </Card>
                     </Col>
@@ -49,7 +70,7 @@ function AdminHome() {
                         <Card.Body>
                         <Card.Subtitle className="text-muted mb-2">Usuarios Registrados</Card.Subtitle>
                         <Card.Title className="fs-3">{usuarios.length}</Card.Title>
-                        {error && <Card.Text className="text-danger">{error}</Card.Text>}
+                        {errorUsuarios && <Card.Text className="text-danger">{errorUsuarios}</Card.Text>}
                         </Card.Body>
                     </Card>
                     </Col>

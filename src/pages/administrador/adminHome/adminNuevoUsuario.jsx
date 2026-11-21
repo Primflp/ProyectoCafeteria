@@ -6,7 +6,7 @@ import SidebarAdmin from '../../../components/AdminSideBar';
 import { REGIONES_CHILE } from '../../../components/regiones.js';
 import { validarRut } from '../../../cafeteria';
 import './adminHome.css';
-import api from '../../../services/Api'
+import {apiUsuarios} from '../../../services/Api'
 
 function AdminNuevoUsuario() {
     const [form, setForm] = useState({
@@ -136,7 +136,7 @@ function AdminNuevoUsuario() {
         };
 
         try {
-            await api.post('/api/v2/usuario/guardar', usuarioData);
+            await apiUsuarios.post('/api/v2/usuario/guardar', usuarioData);
 
             navigate('/admin/usuarios');
         } catch (err) {

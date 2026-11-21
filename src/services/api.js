@@ -1,19 +1,23 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8081'; 
-
-const api = axios.create({
-  baseURL: API_URL,
-});
-
-api.interceptors.request.use((config) => {
+const agregarToken = (config) => {
   const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+}
 
-export default api;
+export const apiUsuarios = axios.create({
+  baseURL: 'http://localhost:8081'
+});
+apiUsuarios.interceptors.request.use(agregarToken)
+
+export const apiProductos = axios.create({
+  baseURL: 'http://localhost:8082'
+})
+apiProductos.interceptors.request.use(agregarToken)
+
+
+
+export default apiUsuarios;

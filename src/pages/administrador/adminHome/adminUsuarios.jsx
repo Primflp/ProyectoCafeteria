@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import SidebarAdmin from '../../../components/AdminSideBar'
 import './adminHome.css'
 import { useEffect, useState } from 'react';
-import api from '../../../services/Api'
+import {apiUsuarios} from '../../../services/Api'
 
 function AdminUsuarios() {
 
@@ -12,7 +12,7 @@ function AdminUsuarios() {
     useEffect (() => {
         const obtenerUsuarios = async () => {
             try {
-                const response = await api.get('/api/v2/usuario/buscartodos');
+                const response = await apiUsuarios.get('/api/v2/usuario/buscartodos');
                 setUsuarios(response.data);
             } catch (err) {
                 console.error('Error al obtener los datos: ', err);

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/Api'
+import {apiUsuarios} from '../services/Api'
 
 function LoginForm() {
   const [correo, setCorreo] = useState('');
@@ -38,7 +38,7 @@ function LoginForm() {
     }
 
     try {
-      const response = await api.post('/auth/login', {
+      const response = await apiUsuarios.post('/auth/login', {
         email: correo,
         password: contrasena
       });

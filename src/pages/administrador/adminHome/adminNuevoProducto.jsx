@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import SidebarAdmin from '../../../components/AdminSideBar';
 import { validarProducto } from '../../../cafeteria';
 import './adminHome.css';
-
-const categoriasProducto = ['Grano entero', 'Café molido', 'Descafeinado'];
+import { apiProductos } from '../../../services/Api';
 
 const initialForm = {
     codigo: '',
@@ -28,6 +27,24 @@ const initialWarnings = {
 };
 
 function AdminNuevoProducto() {
+
+    const [error, setError] = useState('')
+    const [categorias, setCategorias] = useState([])
+
+    useEffect (() => {
+        const obtenerCategorias = async () => {
+            try {
+                const response = await apiProductos.get('/api/v2/categoria/buscartodas');
+                setCategorias(response.data);
+            } catch (err) {
+                console.error('Error al obtener los datos: ', err);
+                setError('No se pudieron cargar los datos.')
+            }
+        };
+
+        obtenerCategorias();
+    }, []);
+
     const [form, setForm] = useState(initialForm);
     const [warnings, setWarnings] = useState(initialWarnings);
     const navigate = useNavigate();
@@ -46,13 +63,29 @@ function AdminNuevoProducto() {
         validarFormulario(valoresActualizados);
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = async (event) => {
+            event.preventDefault();
+    
+            const usuarioData = {
+                nombreProducto: form.nombre,
+                precioProducto: form.precio,
+                descripcionProducto: form.descripcion,
+                stockProducto: form.stock
+            };
+    
+            try {
+                const response = await apiProductos.post('/api/v2/producto/guardar', usuarioData);
 
-        if (validarFormulario(form)) {
-            navigate('/admin/productos');
-        }
-    };
+                const idCategoria = form.categoria
+                const idProducto = response.data.idProducto
+
+                await apiProductos.put(`/api/v2/categoria/${idCategoria}/vincular/${idProducto}`)
+    
+                navigate('/admin/productos');
+            } catch (err) {
+                console.error('Error al registrar producto', err);
+            }
+        };
 
     return (
         <div className="admin-layout">
@@ -67,18 +100,6 @@ function AdminNuevoProducto() {
 
                 <div className="admin-form-box">
                     <Form onSubmit={handleSubmit} noValidate>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Código del producto</Form.Label>
-                            <Form.Control
-                                name="codigo"
-                                type="text"
-                                minLength={3}
-                                value={form.codigo}
-                                onChange={handleChange}
-                            />
-                            {warnings.codigo && <Form.Text className="text-danger">{warnings.codigo}</Form.Text>}
-                        </Form.Group>
-
                         <Form.Group className="mb-3">
                             <Form.Label>Nombre del producto</Form.Label>
                             <Form.Control
@@ -163,8 +184,13 @@ function AdminNuevoProducto() {
                             <Form.Label>Categoría</Form.Label>
                             <Form.Select name="categoria" value={form.categoria} onChange={handleChange}>
                                 <option value="">Selecciona una categoría</option>
-                                {categoriasProducto.map((categoria) => (
-                                    <option key={categoria} value={categoria}>{categoria}</option>
+                                {categorias.map((categoria) => (
+                                    <option
+                                        key={categoria.idCategoriaProducto}
+                                        value={categoria.idCategoriaProducto}
+                                    >
+                                        {categoria.nombreCategoriaProducto}
+                                    </option>
                                 ))}
                             </Form.Select>
                             {warnings.categoria && (

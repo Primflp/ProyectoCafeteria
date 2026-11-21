@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { REGIONES_CHILE } from './regiones';
 import { validarRut } from '../cafeteria';
-import api from '../services/Api'
+import {apiUsuarios} from '../services/Api'
 import axios from 'axios';
 
 const initialForm = {
@@ -126,7 +126,7 @@ function RegisterForm() {
     try {
       console.log(usuarioData)
 
-      await api.post('/api/v2/usuario/guardar', usuarioData);
+      await apiUsuarios.post('/api/v2/usuario/guardar', usuarioData);
 
       navigate('/')
     } catch (err) {
