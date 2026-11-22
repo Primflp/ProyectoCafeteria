@@ -46,13 +46,19 @@ function AdminUsuarios() {
                             </tr>
                         </thead>
                         <tbody>
-                            {usuarios.map((usuario) => (
-                                <tr key={usuario.idUsuario}>
-                                    <td>#{usuario.idUsuario}</td>
-                                    <td>{usuario.nombresUsuario}</td>
-                                    <td>{usuario.rolUsuario}</td>
+                            {usuarios.length === 0 ? (
+                                <tr>
+                                    <td colSpan="3">No hay usuarios registrados.</td>
                                 </tr>
-                            ))}
+                            ) : (
+                                usuarios.map((usuario) => (
+                                    <tr key={usuario.idUsuario}>
+                                        <td>#{usuario.idUsuario}</td>
+                                        <td>{usuario.nombresUsuario}</td>
+                                        <td>{usuario.rolUsuario}</td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
