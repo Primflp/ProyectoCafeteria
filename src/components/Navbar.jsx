@@ -33,6 +33,11 @@ function NavBar() {
         String(usuario?.rolUsuario ?? '').trim().toUpperCase()
     );
 
+    const esVendedor = ['VENDEDOR', 'ROLE_VENDEDOR'].includes(
+        String(usuario?.rolUsuario ?? '').trim().toUpperCase()
+    );
+
+
     return (
         <Navbar expand={false} className="navbar navbar-dark bg-dark">
             <Container fluid className='custom-navbar position-relative'>
@@ -81,6 +86,9 @@ function NavBar() {
                             <Nav.Link as={Link} to="/contacto"> ⭑ <u> Contacto</u></Nav.Link>
                             {esAdmin && (
                                 <Nav.Link as={Link} to="/admin/home"> ⭑ <u> Admin Dashboard</u></Nav.Link>
+                            )}
+                            {esVendedor && (
+                                <Nav.Link as={Link} to="/vendedor/home"> ⭑ <u> Admin Dashboard</u></Nav.Link>
                             )}
                         </Nav>
                         <div className="mt-auto text-center">

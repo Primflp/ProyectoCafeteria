@@ -56,6 +56,7 @@ function AdminProductos() {
                                 <th>Producto</th>
                                 <th>Precio</th>
                                 <th>Acciones</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
