@@ -88,7 +88,7 @@ function NavBar() {
                                 <Nav.Link as={Link} to="/admin/home"> ⭑ <u> Admin Dashboard</u></Nav.Link>
                             )}
                             {esVendedor && (
-                                <Nav.Link as={Link} to="/vendedor/home"> ⭑ <u> Admin Dashboard</u></Nav.Link>
+                                <Nav.Link as={Link} to="/vendedor/home"> ⭑ <u> Vendedor Dashboard</u></Nav.Link>
                             )}
                         </Nav>
                         <div className="mt-auto text-center">
