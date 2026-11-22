@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { apiProductos } from '../../services/api'
+import { apiProductos, extraerLista } from '../../services/api'
 import { obtenerImagenProducto } from '../../services/imagenes'
 
 import './productos.css'
@@ -13,16 +13,19 @@ function Productos(){
 
     const [error, setError] = useState('');
     const [productos, setProductos] = useState([]);
+    const [cargando, setCargando] = useState(true);
 
     useEffect (() => {
         const obtenerProductos = async () => {
             try {
                 const response = await apiProductos.get('/api/v2/producto/buscartodos');
-                setProductos(response.data);
+                setProductos(extraerLista(response));
                 setError('');
             } catch (err) {
                 console.error('Error al obtener los productos: ', err);
                 setError('No se pudieron cargar los datos.')
+            } finally {
+                setCargando(false);
             }
         };
 
@@ -64,6 +67,9 @@ function Productos(){
         </div>
         {/* sell cards */}
         <div className="sell-cards-container">
+            {error && <p className="text-danger" role="alert">{error}</p>}
+            {cargando && <p>Cargando productos...</p>}
+            {!cargando && !error && productos.length === 0 && <p>No hay productos disponibles.</p>}
             {productosFiltrados.map((producto) => (
                 <div className="sell-card" key={producto.idProducto}>
                     <img

@@ -22,6 +22,13 @@ export const resolverApiUrl = (configuredUrl, environmentVariable, localUrl, isD
   return url;
 };
 
+export const extraerLista = (response) => {
+  if (response.status === 204) return [];
+  if (Array.isArray(response.data)) return response.data;
+
+  throw new Error('La API no devolvió una lista válida.');
+};
+
 const agregarToken = (config) => {
   const token = localStorage.getItem('token');
   if (token) {
