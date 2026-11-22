@@ -2,16 +2,14 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './carrito.css';
 import { apiBoletas, apiProductos } from '../../services/api'
-
-import imagen1 from '../../../public/productos/cafe-arabe-01.png'
-import imagen2 from '../../../public/productos/cafe-arabe-02.png'
-import imagen3 from '../../../public/productos/cafe-arabe-03.png'
+import { obtenerImagenProducto } from '../../services/imagenes'
 
 function Carrito() {
 
     const [carrito, setCarrito] = useState(null);
     const [productosMap, setProductosMap] = useState(new Map());
     const [error, setError] = useState('');
+    const [cantidad, setCantidad] = useState(1);
 
     useEffect(() => {
     const cargarDatos = async () => {
@@ -25,7 +23,7 @@ function Carrito() {
             }
             
             const [resCarrito, resProductos] = await Promise.all([
-                apiBoletas.get('/api/v2/msboleta/carrito/obtenerCarrito/${idUsuario}'),
+                apiBoletas.get(`/api/v2/msboleta/carrito/obtenerCarrito/${idUsuario}`),
                 apiProductos.get('/api/v2/producto/buscartodos')
             ]);
 
@@ -45,7 +43,7 @@ function Carrito() {
             setError('');
         } catch (err) {
             console.error('Error al cargar carrito o productos:', err);
-            setError('No se pudieron cargar los datos del carrito.');
+            setError('No existen productos en el carrito');
         }
     };
 
@@ -68,7 +66,7 @@ function Carrito() {
     };
     });
 
-    const totalCarrito = detallesConInfo.reduce((acc, item) => acc + item.subtotal, 0);
+    const totalCarrito = detallesConInfo.reduce((acc, item) => acc + (item.subtotal * cantidad), 0);
 
     const cambiarCantidad = (id, cambio) => {
         setProductosCarrito((productos) =>
@@ -79,6 +77,8 @@ function Carrito() {
             )
         );
     };
+
+
 
     return (
         <div className="carrito-page">
@@ -101,9 +101,15 @@ function Carrito() {
                                         <td>
                                             <div className="carrito-product-item">
                                                 <div className="carrito-product-img">
-                                                    {item.idProducto === 1 && <img src={imagen1} alt={item.nombre} />}
-                                                    {item.idProducto === 2 && <img src={imagen2} alt={item.nombre} />}
-                                                    {item.idProducto === 3 && <img src={imagen3} alt={item.nombre} />}
+                                                    <img
+                                                        src={obtenerImagenProducto(productosMap.get(item.idProducto) ?? item)}
+                                                        alt={item.nombre}
+                                                        onError={(e) => {
+                                                            if (!e.currentTarget.src.endsWith('/productos/default.png')) {
+                                                                e.currentTarget.src = '/productos/default.png';
+                                                            }
+                                                        }}
+                                                    />
                                                 </div>
                                                 <div>
                                                     <Link
@@ -120,13 +126,10 @@ function Carrito() {
                                             ${item.precio}
                                         </td>
                                         <td>
-                                            <div className="carrito-quantity-control">
-                                                <input 
-                                                    type="text" 
-                                                    value={item.cantidad}
-                                                    readOnly 
-                                                    className="carrito-quantity-input" 
-                                                />
+                                            <div className='manage-amount-border'>
+                                                <button type="button" className='manage-amount-button-left' onClick={() => setCantidad((prev) => Math.max(1, prev - 1))}>-</button>
+                                                <input type="number" placeholder='1' value={cantidad} className='agregar-carrito__cantidad' onChange={(e) => setCantidad(Math.max(1, Number(e.target.value) || 1))}/>
+                                                <button type="button" className='manage-amount-button-right' onClick={() => setCantidad((prev) => prev + 1)}>+</button>
                                             </div>
                                         </td>
                                     </tr>

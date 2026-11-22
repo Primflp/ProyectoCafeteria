@@ -1,19 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { apiProductos } from '../../services/api'
+import { obtenerImagenProducto } from '../../services/imagenes'
 
 import './productos.css'
 
 import Banner from '../../assets/img/publicidad-larga.png'
 
 import SearchBar from '../../assets/img/search-icon.png'
-
-const modulos = import.meta.glob('../../../public/productos/*.{png,jpg,jpeg,webp}', {
-  eager: true,
-  import: 'default',
-});
-
-const listaImagenes = Object.values(modulos);
 
 function Productos(){
 
@@ -70,12 +64,17 @@ function Productos(){
         </div>
         {/* sell cards */}
         <div className="sell-cards-container">
-            {productosFiltrados.map((producto, index) => (
+            {productosFiltrados.map((producto) => (
                 <div className="sell-card" key={producto.idProducto}>
                     <img
-                        src={listaImagenes[index % listaImagenes.length]}
+                        src={obtenerImagenProducto(producto)}
                         alt={producto.nombreProducto}
                         className="sell-card__img"
+                        onError={(e) => {
+                            if (!e.currentTarget.src.endsWith('/productos/default.png')) {
+                                e.currentTarget.src = '/productos/default.png';
+                            }
+                        }}
                     />
                     <p className='sell-card__text__name'>
                         {producto.nombreProducto} <br /> <br />

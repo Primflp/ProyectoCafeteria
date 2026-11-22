@@ -4,17 +4,12 @@ import { apiProductos } from '../../../services/api';
 import { apiBoletas } from '../../../services/api';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-const modulosImagenes = import.meta.glob('../../../../public/productos/*.{png,jpg,jpeg,webp}', {
-    eager: true,
-    import: 'default',
-});
-
-const imagenes = Object.values(modulosImagenes);
+import { obtenerImagenProducto } from '../../../services/imagenes';
 
 function Detalle(){
     const { id } = useParams();
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
     const [producto, setProducto] = useState(null);
     const [cantidad, setCantidad] = useState(1);
     
@@ -41,21 +36,24 @@ function Detalle(){
     // agregar carrito
     const agregarAlCarrito = async (idUsuario, idProducto, cantidad = 1) => {
     try {
-        const response = await apiBoletas.post('/api/v2/msboleta/carrito/agregarProducto', {
+        await apiBoletas.post('/api/v2/msboleta/carrito/agregarProducto', {
         idUsuario,
         idProducto,
         cantidad,
         });
 
-        setCarrito(response.data);
         setError('');
+        setSuccess('Producto agregado al carrito.');
     } catch (err) {
         console.error('Error al agregar producto al carrito:', err);
+        setSuccess('');
         setError('No se pudo agregar el producto al carrito.');
     }
     };
 
     const handleClickAgregar = async (producto) => {
+        setError('');
+        setSuccess('');
 
         const usuarioGuardado = JSON.parse(localStorage.getItem('usuario') || 'null');
         const idUsuario = usuarioGuardado?.idUsuario;
@@ -74,6 +72,7 @@ function Detalle(){
         }
 
         await agregarAlCarrito(idUsuario, idProducto, cantidad);
+
     };
 
     return(
@@ -81,9 +80,12 @@ function Detalle(){
             <div className="detalle-container">
                 <div className='grid1-product-img-container'>
                     <img
-                        src={imagenes[Number(id) - 1] ?? imagenes[0]}
+                        src={obtenerImagenProducto(producto)}
                         alt={producto.nombreProducto}
                         className='grid1-product-img'
+                        onError={(e) => {
+                            if (!e.currentTarget.src.endsWith('productos/default.png')) {
+                                e.currentTarget.src = 'productos/default.png';}}}
                     />
                 </div>
 
@@ -97,15 +99,24 @@ function Detalle(){
                     <div className='agregar-carrito-container'>
 
                         <div className='manage-amount-border'>
-                            <button className='manage-amount-button-left'>-</button>
-                            <input type="text" placeholder='1' className='agregar-carrito__cantidad'/>
-                            <button className='manage-amount-button-right'>+</button>
+                            <button type="button" className='manage-amount-button-left' onClick={() => setCantidad((prev) => Math.max(1, prev - 1))}>-</button>
+                            <input type="number" placeholder='1' value={cantidad} className='agregar-carrito__cantidad' onChange={(e) => setCantidad(Math.max(1, Number(e.target.value) || 1))}/>
+                            <button type="button" className='manage-amount-button-right' onClick={() => setCantidad((prev) => prev + 1)}>+</button>
                         </div>
 
                         <button onClick={() => handleClickAgregar(producto)} className='agregar-carrito-button fuzzy-bubbles-bold'>Agregar al carrito</button>
                     </div>
 
-                    <div>
+                    {(error || success) && (
+                        <p
+                            className={`agregar-carrito-mensaje ${error ? 'agregar-carrito-mensaje--error' : 'agregar-carrito-mensaje--success'}`}
+                            role={error ? 'alert' : 'status'}
+                        >
+                            {error || success}
+                        </p>
+                    )}
+
+                    <div style={{marginTop: '4rem'}}>
                         <u><h3>Descripción</h3></u>
                         <p>
                             {producto.descripcionProducto || 'Sin descripción disponible.'}

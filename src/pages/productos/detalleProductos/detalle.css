@@ -57,13 +57,30 @@
     display: flex;
     flex-direction: row;
     margin-top: 2rem;
-    margin-bottom: 3.5rem;
+}
+
+.agregar-carrito-mensaje{
+    margin-top: 1rem;
+}
+
+.agregar-carrito-mensaje--success{
+    color: #198754;
+}
+
+.agregar-carrito-mensaje--error{
+    color: #dc3545;
 }
 
 .manage-amount-border{
     display: flex;
     border: solid black 1px;
     border-radius: 10px;
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 }
 
 .agregar-carrito__cantidad{

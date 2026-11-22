@@ -80,19 +80,19 @@
         }
 
     .account-logout-container{
-        background: white;
+        background: rgb(219, 41, 41);
         
         place-self: center;
 
         position: absolute;
         bottom: 5vh;
 
-        padding: 0.3rem 0.5rem;
+        padding: 0.3rem 0.7rem;
         border-radius: 6px;
     }
 
     .account-logout-container__text{
-        color: black;
+        color: white;
         text-decoration: none;
 
         display: block;

@@ -85,7 +85,7 @@
 }
 
 .admin-header__btn-nuevo__sidebar {
-    background-color: rgb(155, 9, 9);
+    background-color: rgb(219, 41, 41);
     color: white;
     padding: 0.7rem 1.8rem;
     text-decoration: none;
@@ -126,6 +126,28 @@
     text-decoration: underline;
     font-weight: bold;
 }
+
+.delete-button{
+    width: 40px;
+    height: 40px;
+    max-width: 40px;
+    display: block;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.delete-button__icon {
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  object-fit: contain;
+  display: block;
+
+  border-radius: 5px;
+}
+
 
 /* Formularios */
 .admin-form-box {

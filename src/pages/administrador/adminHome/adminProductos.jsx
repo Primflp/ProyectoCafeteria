@@ -3,6 +3,7 @@ import SidebarAdmin from '../../../components/AdminSideBar'
 import './adminHome.css'
 import { useEffect, useState } from 'react';
 import {apiProductos} from '../../../services/api';
+import deleteImg from '../../../assets/img/eliminar.png'
 
 function AdminProductos() {
 
@@ -21,6 +22,19 @@ function AdminProductos() {
         };
         obtenerProductos();
     }, []);
+
+    // eliminar producto
+
+    const handleEliminar = async (id) => {
+    try {
+      await apiProductos.delete(`/api/v2/producto/eliminarporid/${id}`);
+      setProductos((prev) =>
+        prev.filter((item) => (item.idProducto ?? item.id) !== id)
+      );
+    } catch (error) {
+      console.error('Error al eliminar:', error);
+    }
+  };
 
     return (
         <div className="admin-layout">
@@ -41,10 +55,13 @@ function AdminProductos() {
                                 <th>ID</th>
                                 <th>Producto</th>
                                 <th>Precio</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {productos.map((productos) => (
+                        
+                                
                                 <tr key={productos.idProducto}>
                                     <td>#{productos.idProducto}</td>
                                     <td>
@@ -53,6 +70,11 @@ function AdminProductos() {
                                         </Link>
                                     </td>
                                     <td>${productos.precioProducto}</td>
+                                    <td>
+                                        <button className='delete-button' onClick={() => handleEliminar(productos.idProducto)}>
+                                            <img src={deleteImg} alt="eliminar" className='delete-button__icon'/>
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
