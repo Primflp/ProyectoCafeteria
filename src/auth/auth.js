@@ -11,3 +11,10 @@ export function obtenerRolUsuario() {
     return null;
   }
 }
+
+export function obtenerRutaPorRol() {
+  const rol = obtenerRolUsuario();
+  if (rol === 'ROLE_ADMIN') return '/admin/home';
+  if (rol === 'ROLE_VENDEDOR') return '/vendedor/home';
+  return '/';
+}

@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import {apiUsuarios} from '../services/api'
+import { obtenerRutaPorRol } from '../auth/auth';
 
 function LoginForm() {
   const [correo, setCorreo] = useState('');
@@ -53,13 +54,7 @@ function LoginForm() {
         localStorage.setItem('usuario', JSON.stringify(usuario));
       }
 
-      if (correo === 'admin@duoc.cl' && contrasena === 'bestadmin') {
-        navigate('/admin/home');
-      } else if (correo === 'vendedor@duoc.cl' && contrasena === 'vendebest') {
-        navigate('/vendedor/home');
-      } else {
-        navigate('/');
-      }
+      navigate(obtenerRutaPorRol());
     } catch {
       setWarnings (prev => ({
         ...prev,

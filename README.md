@@ -1,19 +1,35 @@
-# React + Vite
+# Cafetería
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Frontend React + Vite para desplegar como sitio estático en Netlify. Las API de usuarios, productos y boletas se despliegan por separado.
 
-Currently, two official plugins are available:
+## Desarrollo local
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Copia `.env.example` a `.env.local`.
+2. Configura las URLs locales de las API y, si usas inicio de sesión con Google, `VITE_GOOGLE_CLIENT_ID`.
+3. Ejecuta `npm install` y `npm run dev`.
 
-## React Compiler
+Si una URL de API no está configurada en desarrollo, el frontend usa los puertos locales `8081`, `8082` y `8083`.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## Despliegue en Netlify
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+Configura el sitio con:
 
-## Expanding the Oxlint configuration
+- **Base directory:** raíz del repositorio (o la carpeta del frontend si cambia).
+- **Build command:** `npm run build`.
+- **Publish directory:** `dist`.
+- **Node.js:** `22.12.0`, fijado en `netlify.toml` y `.nvmrc`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Agrega estas variables en **Site configuration → Environment variables** antes de desplegar; los valores se incorporan al bundle durante el build:
+
+| Variable | Valor |
+| --- | --- |
+| `VITE_API_USUARIOS_URL` | URL HTTPS pública de la API de usuarios en Railway |
+| `VITE_API_PRODUCTOS_URL` | URL HTTPS pública de la API de productos en Railway |
+| `VITE_API_BOLETAS_URL` | URL HTTPS pública de la API de boletas en Railway |
+| `VITE_GOOGLE_CLIENT_ID` | Client ID de Google (opcional si no se usa ese acceso) |
+
+Las tres URLs de API son obligatorias en producción y se validan como HTTPS. No pongas secretos en variables `VITE_`: cualquier valor con ese prefijo queda visible para los usuarios del sitio. El frontend requiere que las API permitan el origen del dominio Netlify mediante CORS.
+
+`netlify.toml` redirige las rutas de la SPA a `index.html`, por lo que las rutas internas se pueden abrir y recargar directamente.
+
+Antes de publicar, ejecuta `npm run build`, `npm run lint` y `npm test -- --run`. Luego valida inicio de sesión, catálogo, carrito y recarga de rutas internas contra los dominios reales.

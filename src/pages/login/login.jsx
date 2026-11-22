@@ -6,8 +6,8 @@ import Logo from '../../assets/img/cat&cup-circle-background.png'
 import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-
-import axios from 'axios'
+import { apiUsuarios } from '../../services/api';
+import { obtenerRutaPorRol } from '../../auth/auth';
 
 function Login() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function Login() {
     try {
       const tokenGoogle = credentialResponse.credential;
 
-      const response = await axios.post('http://localhost:8081/auth/google', {token: tokenGoogle});
+      const response = await apiUsuarios.post('/auth/google', { token: tokenGoogle });
 
       const { token, usuario} = response.data
 
@@ -29,7 +29,7 @@ function Login() {
         localStorage.setItem('usuario', JSON.stringify(usuario));
       }
 
-      navigate('/');
+      navigate(obtenerRutaPorRol());
 
     } catch (err) {
       console.error('Error al autenticar con Google', err);
@@ -53,12 +53,14 @@ function Login() {
         <Form/>
 
         <div className='login-google__button'>
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={handleGoogleError}
-            theme='outline'
-            size='large'
-          />
+          {import.meta.env.VITE_GOOGLE_CLIENT_ID && (
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              theme='outline'
+              size='large'
+            />
+          )}
         </div>
 
     </div>

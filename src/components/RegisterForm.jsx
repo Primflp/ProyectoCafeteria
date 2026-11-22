@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { REGIONES_CHILE } from './regiones';
 import { validarRut } from '../cafeteria';
 import {apiUsuarios} from '../services/api'
-import axios from 'axios';
 
 const initialForm = {
   rut: '',
@@ -111,6 +110,11 @@ function RegisterForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!validarFormulario(form)) {
+      return;
+    }
+
+    setError('');
     const usuarioData = {
             runUsuario: form.rut,
             nombresUsuario: form.nombre,
@@ -124,17 +128,11 @@ function RegisterForm() {
     };
 
     try {
-      console.log(usuarioData)
-
       await apiUsuarios.post('/api/v2/usuario/guardar', usuarioData);
-
-      navigate('/')
-    } catch (err) {
-        console.error('Error al registrar usuario', err)
-    }
-
-    if (validarFormulario(form)) {
       navigate('/');
+    } catch (err) {
+      console.error('Error al registrar usuario', err);
+      setError('No se pudo completar el registro. Inténtalo nuevamente.');
     }
   };
 
@@ -247,6 +245,7 @@ function RegisterForm() {
         />
         {warnings.direccion && <Form.Text className="text-danger">{warnings.direccion}</Form.Text>}
       </Form.Group>
+      {error && <div className="text-danger mb-3" role="alert">{error}</div>}
       <Button type="submit" className="register-form__button">
         Registrar
       </Button>

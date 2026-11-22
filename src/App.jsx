@@ -56,11 +56,31 @@ function App() {
         <Route path="/detalle/:id" element={<Detalle/>} />
 
         {/* administrador */}
-        <Route path="/admin/home" element={<AdminHome/>} />
-        <Route path="/admin/productos" element={<AdminProductos/>} />
-        <Route path="/admin/productos/crear" element={<AdminNuevoProducto/>} />
-        <Route path="/admin/usuarios" element={<AdminUsuarios/>} />
-        <Route path="/admin/usuarios/crear" element={<AdminNuevoUsuario/>} />
+        <Route path="/admin/home" element={
+          <RutaProtegida rolRequerido="ROLE_ADMIN">
+            <AdminHome/>
+          </RutaProtegida>
+        } />
+        <Route path="/admin/productos" element={
+          <RutaProtegida rolRequerido="ROLE_ADMIN">
+            <AdminProductos/>
+          </RutaProtegida>
+        } />
+        <Route path="/admin/productos/crear" element={
+          <RutaProtegida rolRequerido="ROLE_ADMIN">
+            <AdminNuevoProducto/>
+          </RutaProtegida>
+        } />
+        <Route path="/admin/usuarios" element={
+          <RutaProtegida rolRequerido="ROLE_ADMIN">
+            <AdminUsuarios/>
+          </RutaProtegida>
+        } />
+        <Route path="/admin/usuarios/crear" element={
+          <RutaProtegida rolRequerido="ROLE_ADMIN">
+            <AdminNuevoUsuario/>
+          </RutaProtegida>
+        } />
 
         {/* vendedor */}
         <Route path="/vendedor/home" element={
