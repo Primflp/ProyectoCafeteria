@@ -67,26 +67,22 @@ describe('Validación de RUN chileno', () => {
 
 describe('Validación de productos', () => {
     const productoValido = {
-        codigo: 'CAF100',
         nombre: 'Café arábico',
         descripcion: '',
         precio: '0',
         stock: '0',
-        stockCritico: '',
         categoria: 'Grano entero',
     };
 
-    it('permite descripción y stock crítico opcionales y precio gratis', () => {
+    it('permite descripción opcional y precio gratis', () => {
         expect(validarProducto(productoValido).valido).toBe(true);
     });
 
     it('valida campos requeridos, límites de texto y números enteros en stock', () => {
-        expect(validarProducto({ ...productoValido, codigo: 'AB' }).errores.codigo).toBeTruthy();
         expect(validarProducto({ ...productoValido, nombre: 'a'.repeat(101) }).errores.nombre).toBeTruthy();
         expect(validarProducto({ ...productoValido, descripcion: 'a'.repeat(501) }).errores.descripcion).toBeTruthy();
         expect(validarProducto({ ...productoValido, precio: '-1' }).errores.precio).toBeTruthy();
         expect(validarProducto({ ...productoValido, stock: '1.5' }).errores.stock).toBeTruthy();
-        expect(validarProducto({ ...productoValido, stockCritico: '-1' }).errores.stockCritico).toBeTruthy();
         expect(validarProducto({ ...productoValido, categoria: '' }).errores.categoria).toBeTruthy();
     });
 });

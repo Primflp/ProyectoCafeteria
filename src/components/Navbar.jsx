@@ -29,6 +29,10 @@ function NavBar() {
         navigate('/login');
     };
 
+    const esAdmin = ['ADMIN', 'ROLE_ADMIN'].includes(
+        String(usuario?.rolUsuario ?? '').trim().toUpperCase()
+    );
+
     return (
         <Navbar expand={false} className="navbar navbar-dark bg-dark">
             <Container fluid className='custom-navbar position-relative'>
@@ -75,6 +79,9 @@ function NavBar() {
                             <Nav.Link as={Link} to="/preparaciones"> ⭑ <u> Preparaciones</u></Nav.Link>
                             <Nav.Link as={Link} to="/nosotros"> ⭑ <u> Nosotros</u></Nav.Link>
                             <Nav.Link as={Link} to="/contacto"> ⭑ <u> Contacto</u></Nav.Link>
+                            {esAdmin && (
+                                <Nav.Link as={Link} to="/admin/home"> ⭑ <u> Admin Dashboard</u></Nav.Link>
+                            )}
                         </Nav>
                         <div className="mt-auto text-center">
                             <p className="fuzzy-bubbles-regular mb-0" style={{ opacity: 0.5, marginTop: '5rem', fontSize: '12px' }}>

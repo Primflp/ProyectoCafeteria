@@ -4,25 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import SidebarAdmin from '../../../components/AdminSideBar';
 import { validarProducto } from '../../../cafeteria';
 import './adminHome.css';
-import { apiProductos } from '../../../services/api';
+import { apiProductos, extraerLista } from '../../../services/api';
 
 const initialForm = {
-    codigo: '',
     nombre: '',
     descripcion: '',
     precio: '',
     stock: '',
-    stockCritico: '',
     categoria: '',
 };
 
 const initialWarnings = {
-    codigo: '',
     nombre: '',
     descripcion: '',
     precio: '',
     stock: '',
-    stockCritico: '',
     categoria: '',
 };
 
@@ -35,7 +31,7 @@ function AdminNuevoProducto() {
         const obtenerCategorias = async () => {
             try {
                 const response = await apiProductos.get('/api/v2/categoria/buscartodas');
-                setCategorias(response.data);
+                setCategorias(extraerLista(response));
             } catch (err) {
                 console.error('Error al obtener los datos: ', err);
                 setError('No se pudieron cargar los datos.')
@@ -64,28 +60,26 @@ function AdminNuevoProducto() {
     };
 
     const handleSubmit = async (event) => {
-            event.preventDefault();
-    
-            const usuarioData = {
-                nombreProducto: form.nombre,
-                precioProducto: form.precio,
-                descripcionProducto: form.descripcion,
-                stockProducto: form.stock
-            };
-    
-            try {
-                const response = await apiProductos.post('/api/v2/producto/guardar', usuarioData);
+        event.preventDefault();
 
-                const idCategoria = form.categoria
-                const idProducto = response.data.idProducto
+        if (!validarFormulario(form)) return;
 
-                await apiProductos.put(`/api/v2/categoria/${idCategoria}/vincular/${idProducto}`)
-    
-                navigate('/admin/productos');
-            } catch (err) {
-                console.error('Error al registrar producto', err);
-            }
+        const producto = {
+            nombreProducto: form.nombre.trim(),
+            precioProducto: Number(form.precio),
+            descripcionProducto: form.descripcion,
+            stockProducto: Number(form.stock),
         };
+
+        try {
+            const response = await apiProductos.post('/api/v2/producto/guardar', producto);
+            await apiProductos.put(`/api/v2/categoria/${form.categoria}/vincular/${response.data.idProducto}`);
+            navigate('/admin/productos');
+        } catch (err) {
+            console.error('Error al registrar producto:', err);
+            setError('No se pudo completar el registro del producto.');
+        }
+    };
 
     return (
         <div className="admin-layout">
@@ -99,6 +93,7 @@ function AdminNuevoProducto() {
                 </div>
 
                 <div className="admin-form-box">
+                    {error && <p className="text-danger" role="alert">{error}</p>}
                     <Form onSubmit={handleSubmit} noValidate>
                         <Form.Group className="mb-3">
                             <Form.Label>Nombre del producto</Form.Label>
@@ -141,43 +136,6 @@ function AdminNuevoProducto() {
                             {form.precio !== '' && Number(form.precio) === 0 && (
                                 <Form.Text className="text-success">Este producto se considerará gratis.</Form.Text>
                             )}
-                        </Form.Group>
-
-                        <Form.Group className="mb-5">
-                            <Form.Label>Stock</Form.Label>
-                            <Form.Control
-                                name="stock"
-                                type="number"
-                                min="0"
-                                step="1"
-                                value={form.stock}
-                                onChange={handleChange}
-                            />
-                            {warnings.stock && <Form.Text className="text-danger">{warnings.stock}</Form.Text>}
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Label>Stock crítico (opcional)</Form.Label>
-                            <Form.Control
-                                name="stockCritico"
-                                type="number"
-                                min="0"
-                                step="1"
-                                value={form.stockCritico}
-                                onChange={handleChange}
-                            />
-                            {warnings.stockCritico && (
-                                <Form.Text className="text-danger">{warnings.stockCritico}</Form.Text>
-                            )}
-                            {form.stock !== '' && form.stockCritico !== ''
-                                && Number.isInteger(Number(form.stock))
-                                && Number.isInteger(Number(form.stockCritico))
-                                && Number(form.stock) <= Number(form.stockCritico)
-                                && (
-                                    <Form.Text className="text-warning d-block">
-                                        Alerta: el stock está en su nivel crítico o por debajo.
-                                    </Form.Text>
-                                )}
                         </Form.Group>
 
                         <Form.Group className="mb-5">

@@ -30,6 +30,7 @@ import VendedorProductos from './pages/vendedor/vendedorProductos'
 import Carrito from './pages/carrito/carrito'
 import CompraExitosa from './pages/carrito/compraExitosa'
 import { RutaProtegida } from './auth/RutaProtegida'
+import AdminEditarProducto from './pages/administrador/adminHome/adminEditarProducto'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -79,6 +80,11 @@ function App() {
         <Route path="/admin/usuarios/crear" element={
           <RutaProtegida rolRequerido="ROLE_ADMIN">
             <AdminNuevoUsuario/>
+          </RutaProtegida>
+        } />
+        <Route path="/admin/productos/editar/:id" element={
+          <RutaProtegida rolRequerido="ROLE_ADMIN">
+            <AdminEditarProducto/>
           </RutaProtegida>
         } />
 

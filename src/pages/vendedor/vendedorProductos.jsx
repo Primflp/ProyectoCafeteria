@@ -1,23 +1,30 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import VendedorSideBar from '../../components/VendedorSideBar';
+import { apiProductos, extraerLista } from '../../services/api';
 import '../administrador/adminHome/adminHome.css';
 
-const productos = [
-    { id: 1, nombre: 'Occaffe Grano Crema E Aroma 100% Arabica 1kg', precio: '$30.990' },
-    { id: 2, nombre: 'Kimbo Filtro 100% Arábico 226,8gr Grano Molido', precio: '$7.990' },
-    { id: 3, nombre: 'Borbone 100% Arabica 1kg Grano Entero', precio: '$34.990' },
-    { id: 4, nombre: 'Lucaffe Exquisit 1 kg Grano Entero', precio: '$46.990' },
-    { id: 5, nombre: 'Bontadi Cuba 100% Arabica 1kg Grano Entero', precio: '$43.990' },
-    { id: 6, nombre: 'Occaffe Grano Descafeinado Professional 1kg', precio: '$35.990' },
-    { id: 7, nombre: 'Bontadi Papua 100% Arabica 1kg Grano Entero', precio: '$34.990' },
-    { id: 8, nombre: 'Lucaffe Mr. Exclusive 1 kg Grano Entero', precio: '$49.990' },
-    { id: 9, nombre: 'Lucaffe Blucaffe 100% Arabica Jamaica 700grs', precio: '$52.990' },
-    { id: 10, nombre: 'Bontadi 100% Arabico 1kg Grano Entero', precio: '$31.990' },
-    { id: 11, nombre: 'Lavazza Crema e Aroma 1 kg Grano Entero', precio: '$34.990' },
-    { id: 12, nombre: 'Lucaffe Classic 1 kg Grano Entero', precio: '$44.990' },
-];
-
 function VendedorProductos() {
+    const [error, setError] = useState('');
+    const [productos, setProductos] = useState([]);
+    const [cargando, setCargando] = useState(true);
+
+    useEffect(() => {
+        const obtenerProductos = async () => {
+            try {
+                const response = await apiProductos.get('/api/v2/producto/buscartodos');
+                setProductos(extraerLista(response));
+            } catch (err) {
+                console.error('Error al obtener los productos:', err);
+                setError('No se pudieron cargar los productos.');
+            } finally {
+                setCargando(false);
+            }
+        };
+
+        obtenerProductos();
+    }, []);
+
     return (
         <div className="admin-layout">
             <VendedorSideBar />
@@ -25,6 +32,7 @@ function VendedorProductos() {
                 <div className="admin-header">
                     <h1 className="admin-header__title fuzzy-bubbles-bold">Productos</h1>
                 </div>
+
                 <div className="admin-table-container">
                     <table className="admin-table">
                         <thead>
@@ -35,20 +43,39 @@ function VendedorProductos() {
                             </tr>
                         </thead>
                         <tbody>
-                            {productos.map((producto) => (
-                                <tr key={producto.id}>
-                                    <td>#{producto.id}</td>
-                                    <td>
-                                        <Link
-                                            to={`/detalle${producto.id}`}
-                                            className="admin-table__link-product"
-                                        >
-                                            {producto.nombre}
-                                        </Link>
-                                    </td>
-                                    <td>{producto.precio}</td>
+                            {productos.map((producto) => {
+                                const idProducto = producto.idProducto ?? producto.id;
+
+                                return (
+                                    <tr key={idProducto}>
+                                        <td>#{idProducto}</td>
+                                        <td>
+                                            <Link
+                                                to={`/detalle/${idProducto}`}
+                                                className="admin-table__link-product"
+                                            >
+                                                {producto.nombreProducto}
+                                            </Link>
+                                        </td>
+                                        <td>${producto.precioProducto}</td>
+                                    </tr>
+                                );
+                            })}
+                            {cargando && (
+                                <tr>
+                                    <td colSpan="3">Cargando productos...</td>
                                 </tr>
-                            ))}
+                            )}
+                            {!cargando && !error && productos.length === 0 && (
+                                <tr>
+                                    <td colSpan="3">No hay productos disponibles.</td>
+                                </tr>
+                            )}
+                            {error && (
+                                <tr>
+                                    <td colSpan="3" className="text-danger" role="alert">{error}</td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>

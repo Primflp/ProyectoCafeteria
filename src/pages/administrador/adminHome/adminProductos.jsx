@@ -55,13 +55,11 @@ function AdminProductos() {
                                 <th>ID</th>
                                 <th>Producto</th>
                                 <th>Precio</th>
-                                <th></th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {productos.map((productos) => (
-                        
-                                
+                            {productos.map((productos) => (        
                                 <tr key={productos.idProducto}>
                                     <td>#{productos.idProducto}</td>
                                     <td>
@@ -71,6 +69,9 @@ function AdminProductos() {
                                     </td>
                                     <td>${productos.precioProducto}</td>
                                     <td>
+                                        <Link to={`/admin/productos/editar/${productos.idProducto}`} className="admin-table__link-product">
+                                            Editar
+                                        </Link>
                                         <button className='delete-button' onClick={() => handleEliminar(productos.idProducto)}>
                                             <img src={deleteImg} alt="eliminar" className='delete-button__icon'/>
                                         </button>

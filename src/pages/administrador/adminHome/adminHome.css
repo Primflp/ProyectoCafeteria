@@ -159,6 +159,38 @@
     border-radius: 6px;
 }
 
+.admin-edit-form-box {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2rem;
+
+    background-color: white;
+    border: 1px solid #aaa;
+    padding: 3rem;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    border-radius: 6px;
+}
+
+.admin-edit-form-box > form {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+@media (max-width: 900px) {
+    .admin-edit-form-box {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+
+    .admin-edit-form-box > form {
+        width: 100%;
+    }
+}
+
 .admin-form-submit {
     display: block;
     width: 15vw;

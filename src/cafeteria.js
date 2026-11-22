@@ -19,23 +19,14 @@ export function validarRut(rut) {
 
 export function validarProducto(producto) {
     const errores = {
-        codigo: '',
         nombre: '',
         descripcion: '',
         precio: '',
         stock: '',
-        stockCritico: '',
         categoria: '',
     };
     const precio = Number(producto.precio);
     const stock = Number(producto.stock);
-    const stockCritico = producto.stockCritico === '' ? null : Number(producto.stockCritico);
-
-    if (!producto.codigo.trim()) {
-        errores.codigo = 'Este campo no puede estar vacío';
-    } else if (producto.codigo.trim().length < 3) {
-        errores.codigo = 'El código debe tener al menos 3 caracteres';
-    }
 
     if (!producto.nombre.trim()) {
         errores.nombre = 'Este campo no puede estar vacío';
@@ -57,10 +48,6 @@ export function validarProducto(producto) {
         errores.stock = 'Este campo no puede estar vacío';
     } else if (!Number.isInteger(stock) || stock < 0) {
         errores.stock = 'El stock debe ser un número entero igual o mayor a cero';
-    }
-
-    if (stockCritico !== null && (!Number.isInteger(stockCritico) || stockCritico < 0)) {
-        errores.stockCritico = 'El stock crítico debe ser un entero igual o mayor a cero';
     }
 
     if (!producto.categoria) {
