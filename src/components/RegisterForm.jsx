@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { REGIONES_CHILE } from './regiones';
 import { validarRut } from '../cafeteria';
-import {apiUsuarios} from '../services/Api'
+import {apiUsuarios} from '../services/api'
 import axios from 'axios';
 
 const initialForm = {
