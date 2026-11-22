@@ -72,6 +72,8 @@ function AdminProductos() {
                                         <Link to={`/admin/productos/editar/${productos.idProducto}`} className="admin-table__link-product">
                                             Editar
                                         </Link>
+                                    </td>
+                                    <td>
                                         <button className='delete-button' onClick={() => handleEliminar(productos.idProducto)}>
                                             <img src={deleteImg} alt="eliminar" className='delete-button__icon'/>
                                         </button>
