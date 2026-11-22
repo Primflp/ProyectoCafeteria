@@ -61,7 +61,7 @@ function Home() {
 
             {usuario ? (
                 <div className='account-acceded-container'>
-                    <p className='account-acceded-container__text'>Bievenido {usuario.nombresUsuario}</p>
+                    <p className='account-acceded-container__text'>Bievenid@ {usuario.nombresUsuario}</p>
                 </div>
             ) : (
                 <div className='account-access-container'>

@@ -22,7 +22,7 @@ export const REGIONES_CHILE = [
   {
     nombre: "Región Metropolitana",
     numero: "RM",
-    comunas: ["Santiago", "Providencia", "Las Condes", "Maipú", "Ñuñoa", "La Florida", "Puente Alto"]
+    comunas: ["Santiago", "Providencia", "Las Condes", "Maipú", "Ñuñoa", "La Florida", "Puente Alto", "Pudahuel"]
   },
   {
     nombre: "Bío-Bío",
