@@ -1,6 +1,6 @@
 import './detalle.css'
 
-import { apiProductos } from '../../../services/api';
+import { apiProductos, extraerLista } from '../../../services/api';
 import { apiBoletas } from '../../../services/api';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -17,7 +17,7 @@ function Detalle(){
             const obtenerProductos = async () => {
                 try {
                     const response = await apiProductos.get('/api/v2/producto/buscartodos');
-                    const seleccionado = response.data.find(
+                    const seleccionado = extraerLista(response).find(
                         (item) => String(item.idProducto) === String(id)
                     );
                     setProducto(seleccionado ?? null);

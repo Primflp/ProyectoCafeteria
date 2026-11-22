@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import SidebarAdmin from '../../../components/AdminSideBar'
 import './adminHome.css'
 import { useEffect, useState } from 'react';
-import {apiUsuarios} from '../../../services/api'
+import {apiUsuarios, extraerLista} from '../../../services/api'
 
 function AdminUsuarios() {
 
@@ -13,7 +13,7 @@ function AdminUsuarios() {
         const obtenerUsuarios = async () => {
             try {
                 const response = await apiUsuarios.get('/api/v2/usuario/buscartodos');
-                setUsuarios(response.data);
+                setUsuarios(extraerLista(response));
             } catch (err) {
                 console.error('Error al obtener los datos: ', err);
                 setError('No se pudieron cargar los datos.')
@@ -36,6 +36,7 @@ function AdminUsuarios() {
                 </div>
 
                 <div className="admin-table-container">
+                    {error && <p className="text-danger m-3" role="alert">{error}</p>}
                     <table className="admin-table">
                         <thead>
                             <tr>

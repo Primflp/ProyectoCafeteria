@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import SidebarAdmin from '../../../components/AdminSideBar'
 import './adminHome.css'
 import { useEffect, useState } from 'react';
-import {apiProductos} from '../../../services/api';
+import {apiProductos, extraerLista} from '../../../services/api';
 import deleteImg from '../../../assets/img/eliminar.png'
 
 function AdminProductos() {
@@ -14,7 +14,7 @@ function AdminProductos() {
         const obtenerProductos = async () => {
             try {
                 const response = await apiProductos.get('/api/v2/producto/buscartodos');
-                setProductos(response.data);
+                setProductos(extraerLista(response));
             } catch (err) {
                 console.error('Error al obtener los datos: ', err);
                 setError('No se pudieron cargar los datos.')
@@ -49,6 +49,7 @@ function AdminProductos() {
                 </div>
 
                 <div className="admin-table-container">
+                    {error && <p className="text-danger m-3" role="alert">{error}</p>}
                     <table className="admin-table">
                         <thead>
                             <tr>

@@ -2,7 +2,7 @@ import { Card, Col, Row } from 'react-bootstrap';
 import SidebarAdmin from '../../../components/AdminSideBar'
 import './adminHome.css'
 import { useEffect, useState } from 'react';
-import {apiUsuarios} from '../../../services/api'
+import {apiUsuarios, extraerLista} from '../../../services/api'
 import {apiProductos} from '../../../services/api'
 
 function AdminHome() {
@@ -15,7 +15,7 @@ function AdminHome() {
         const obtenerUsuarios = async () => {
             try {
                 const response = await apiUsuarios.get('/api/v2/usuario/buscartodos');
-                setUsuarios(response.data);
+                setUsuarios(extraerLista(response));
                 setErrorUsuarios('');
             } catch (err) {
                 console.error('Error al obtener los usuarios: ', err);
@@ -32,7 +32,7 @@ function AdminHome() {
         const obtenerProductos = async () => {
             try {
                 const response = await apiProductos.get('/api/v2/producto/buscartodos');
-                setProductos(response.data);
+                setProductos(extraerLista(response));
                 setErrorProductos('');
             } catch (err) {
                 console.error('Error al obtener los productos: ', err);
