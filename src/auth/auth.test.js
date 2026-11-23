@@ -12,8 +12,12 @@ describe('obtenerRutaPorRol', () => {
     ['ROLE_ADMIN', '/admin/home'],
     ['ROLE_VENDEDOR', '/vendedor/home'],
     ['ROLE_CLIENTE', '/'],
+    [['ROLE_USER', 'ROLE_ADMIN'], '/admin/home'],
+    [[{ authority: 'ROLE_ADMIN' }], '/admin/home'],
+    ['ADMIN', '/admin/home'],
   ])('envía el rol %s a su ruta correspondiente', (rol, ruta) => {
-    localStorage.setItem('token', crearToken({ rol }));
+    const payload = Array.isArray(rol) ? { authorities: rol } : { rol };
+    localStorage.setItem('token', crearToken(payload));
     expect(obtenerRutaPorRol()).toBe(ruta);
   });
 
